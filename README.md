@@ -22,11 +22,11 @@
   - classic game explaintion
 ## BridgeMaster Base
 ### function
-- Recognition poker
-- Auction input
-- Calculate scores
-- Connect to server
-- LCD monitor output
+- Recognition poker 徐煒博
+- Auction input 賴冠穎
+- Calculate scores 賴冠穎
+- Connect to server 賴冠穎
+- LCD monitor output 吳凱倫
 ## BridgeMaster Dealer
 ### funtion
-- Deal cards
+- Deal cards 廖敏翔, 李孟叡
