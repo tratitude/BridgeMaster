@@ -7,6 +7,7 @@
 - Auction on the BridgeMaster Base
 - Analysis on the website
 ## Web server
+- django==2.0.5
 ### admin
 - account: admin
 - password: 1234
