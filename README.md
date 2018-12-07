@@ -7,6 +7,9 @@
 - Auction on the BridgeMaster Base
 - Analysis on the website
 ## Web server
+### admin
+- account: admin
+- password: 1234
 ### app
 - Member system  徐煒博
   - rank
