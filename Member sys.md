@@ -7,6 +7,7 @@
  - join time
  - win rate
  - history table
+ - password (change)
  ## join table
  - machineID
  - position
