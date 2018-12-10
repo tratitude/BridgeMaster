@@ -10,4 +10,4 @@
  ## join table
  - machineID
  - position
- - play mode
+ - play mode(north)
