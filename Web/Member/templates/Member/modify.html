@@ -1,0 +1,24 @@
+{% block content %}
+
+<html>
+<form action="." method="POST" name="form1">
+    {% csrf_token %}
+    {{message}}
+	<p> <span style="color:rgb(131, 7, 248)">帳號:{{username}}</span></p>
+	<p>修改暱稱:
+	<input type="text" value="{{name}}" name="firstname" id="firstname" />
+    </p>
+    <p>請輸入當前密碼:
+    <input type="password" name="current_pass" id="current_pass" />
+    </p>
+    <p>請輸入新密碼:
+    <input type="password" name="new_pass" id="new_pass" />
+    </p>
+    <p>確認新密碼:
+    <input type="password" name="check_pass" id="check_pass" />
+    </p>
+	<input type="submit" name="button" id="button" value="提交" />
+	<input type="button" value="返回" onclick="location='/Member/index/'"/>
+</form>
+</html>
+{% endblock %}
