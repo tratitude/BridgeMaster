@@ -24,9 +24,4 @@ class rounds(models.Model):
     EW
     game_type
     table_ID==models.ForeignKey('table',on_delete=models.CASCADE)
-
-class player_cards(models.Model):
-    card=models.CharField(max_length=2)
-    round_ID=models.ForeignKey('rounds',on_delete=models.CASCADE)
-    seat_ID=models.ForeignKey('seat',on_delete=models.CASCADE)
     
