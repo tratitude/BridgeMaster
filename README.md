@@ -35,6 +35,4 @@
 - Calculate scores 賴冠穎
 - Connect to server 賴冠穎
 - LCD monitor output 吳凱倫
-## BridgeMaster Dealer
-### funtion
 - Deal cards 廖敏翔, 李孟叡
