@@ -23,6 +23,10 @@
   - playing best case
 - Playing mode 廖敏翔
   - random or classic game
+    - round要加入首引的玩家和牌(classic game)
+    - 最後的合約(classic game)
+    - lead_player=NULL(classic game)
+    - bid要紀錄4家(歷史牌局)
   - classic game explaintion
 ## BridgeMaster Base
 ### function
@@ -31,6 +35,4 @@
 - Calculate scores 賴冠穎
 - Connect to server 賴冠穎
 - LCD monitor output 吳凱倫
-## BridgeMaster Dealer
-### funtion
 - Deal cards 廖敏翔, 李孟叡
