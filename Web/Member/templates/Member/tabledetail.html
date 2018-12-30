@@ -1,0 +1,50 @@
+{% extends 'Member/base.html' %}
+
+{%block title%}
+    Table Detail
+{%endblock%}
+
+{%block user%}
+        {{name}}
+        <input type="button" value="修改資料" onclick="location='/Member/modify/'">
+        <input type="button" value="登出" onclick="location='/Member/logout/'">
+{%endblock%}
+
+{%block content%}
+<div style="position:absolute;left:300px;font-size:30px;text-align:justify;">
+    N:   {%for seat in Nseat%}{{seat.PlayerID}}{%endfor%}<br>
+    E:   {%for seat in Eseat%}{{seat.PlayerID}}{%endfor%}<br>
+    W:   {%for seat in Wseat%}{{seat.PlayerID}}{%endfor%}<br>
+    S:   {%for seat in Sseat%}{{seat.PlayerID}}{%endfor%}<br>
+</div>
+<div>
+    <table style="text-align:center;" border="1" cellpadding="0" cellspacing="0" align="center" valign="middle">
+        <tr><th>Tid</th>
+        <th>NS_Trick</th>
+        <th>EW_Trick</th>
+        <th>NS_Vulnerable</th>
+        <th>EW_Vulnerable</th>
+        <th>Contract</th>
+        <th>Leader</th>
+        {%for round in Rounds%}
+        <tr>
+        <td>{{round.T_id}}</td>
+        <td>{{round.NS_Trick}}</td>
+        <td>{{round.EW_Trick}}</td>
+        <td>{{round.NS}}</td>
+        <td>{{round.EW}}</td>
+        <td>{{round.contract}}</td>
+        <td>{{round.leader}}</td>
+        <td><input type="button" onclick="location.href='{{table.pk}}'"value="Detail"></td>
+        </tr>
+        {%endfor%}
+    </table>
+</div>
+{%endblock%}
+
+{%block right%}
+{%endblock%}
+
+
+{%block bottom%}
+{%endblock%}

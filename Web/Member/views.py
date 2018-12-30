@@ -3,8 +3,21 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib import auth
 from django.contrib.auth.models import User
+from django.template.context_processors import csrf
+from django.views import View
+from Member.models import rounds,table,seat
+
+
+
 # Create your views here.
-# superuser admin/admin123		
+# superuser admin/admin123
+def verify(request):
+	if not request.user.is_authenticated:  # 確認登入狀態
+		return redirect("/Member/login/")
+	name = request.user.first_name
+	if name == "":
+		name = request.user.username
+	return name
 def login(request):
 	if request.user.is_authenticated:		#確認登入狀態
 		return redirect("/Member/index/")
@@ -14,18 +27,15 @@ def login(request):
 		user = authenticate(username=name, password=password)
 		if user is not None:
 				auth.login(request,user)
-				return redirect("/Member/index/")			
+				return redirect("/Member/index/")
 		else:
 			message = '登入失敗！'
 	return render(request, "Member/login.html", locals())
 
 def index(request):
-    if request.user.is_authenticated:
-        name=request.user.first_name
-        message="登入成功"
-        return render(request, "Member/index.html", locals())
-    else:		
-        return redirect("/Member/login/")
+	name = verify(request)
+	message="Welcome To BridgeMaster !!!"
+	return render(request, "Member/index.html", locals())
 
 def sign_up(request):
 	if request.method == 'POST':
@@ -54,29 +64,56 @@ def logout(request):
 	message="登出成功"	
 
 def modify(request):
-	if not request.user.is_authenticated:		#確認登入狀態
-		return redirect("/Member/login/")
+	verify(request)
 	user=request.user
 	username=user.username
-	name=user.first_name
+	#name=user.first_name
 	if request.method == 'POST':
 		new_name= request.POST['firstname']
-		cur_pass= request.POST['current_pass']
-		new_pass= request.POST['new_pass']
-		check_pass= request.POST['check_pass']
-		if (not cur_pass=="") or (not new_pass==""): 	#是否修改密碼
+		user.first_name = new_name
+		if	"current_pass" in request.POST:
+			cur_pass= request.POST['current_pass']
+			new_pass= request.POST['new_pass']
+			check_pass= request.POST['check_pass']
+		#if new_pass!="": 	#是否修改密碼
 			if not user.check_password(cur_pass):					
 				message="當前密碼錯誤"
 				return render(request,"Member/modify.html",locals())
+			if new_pass==""	or new_pass==cur_pass:
+				message = "新密碼不可為空或相同"
+				return render(request, "Member/modify.html", locals())
 			if new_pass!=check_pass:
-				message="新密碼不符"
+				message="第二組密碼不符"
 				return render(request,"Member/modify.html",locals())
-			user.set_password(new_pass)	
-		if new_name is not None:
-			user.first_name=new_name
+			user.set_password(new_pass)
+			User = authenticate(username=username, password=new_pass)  # 直接重新登入
+			auth.login(request, User)
 		user.save()
-		if (not cur_pass=="") or (not new_pass==""): 	#是否修改密碼
-			User = authenticate(username=username, password=new_pass)	#直接重新登入
-			auth.login(request,User)
 		return redirect("/Member/index/")
 	return render(request,"Member/modify.html",locals())
+
+def playmode(request,pm='x'):
+	name = verify(request)
+	if pm!='x':
+		if(pm==0):	#Classic
+			return render(request,"Member/Classic.html",locals())
+		elif (pm==1):	#General
+			return render(request,"Member/General.html",locals())
+	if request.POST['BridgeMasterBaseCode'] =="1":
+		request.session['BMBC'] = request.POST['BridgeMasterBaseCode']
+		return render(request, "Member/playmode.html", locals())
+	return redirect("/Member/index/")
+
+def tableinformation(request,tid='x'):
+	name = verify(request)
+	if	tid=="x":
+		tables = table.objects.all()
+		return render(request,"Member/table.html",locals())
+	tables = table.objects.filter(pk=tid)
+	Nseat = seat.objects.filter(TableID=tid,position="N")
+	Eseat = seat.objects.filter(TableID=tid, position="E")
+	Wseat = seat.objects.filter(TableID=tid, position="W")
+	Sseat = seat.objects.filter(TableID=tid, position="S")
+	Rounds = rounds.objects.filter(T_id=tid)
+	return render(request,"Member/tabledetail.html",locals())
+

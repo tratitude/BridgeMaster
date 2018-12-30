@@ -1,0 +1,38 @@
+{% extends 'Member/base.html' %}
+
+{%block title%}
+    Table Information
+{%endblock%}
+
+{%block user%}
+        {{name}}
+        <input type="button" value="修改資料" onclick="location='/Member/modify/'">
+        <input type="button" value="登出" onclick="location='/Member/logout/'">
+{%endblock%}
+
+{%block content%}
+    <table style="text-align:center;" border="1" cellpadding="0" cellspacing="0" align="center" valign="middle">
+        <tr><th>MachineID</th>
+        <th>NS_Point</th>
+        <th>EW_Point</th>
+        <th>Round</th>
+        <th>Detail</th>
+            
+        {%for table in tables%}
+        <tr>
+        <td>{{table.MachineID}}</td>
+        <td>{{table.NS_TotalPoint}}</td>
+        <td>{{table.EW_TotalPoint}}</td>
+        <td>{{table.RoundNum}}</td>
+        <td><input type="button" onclick="location.href='{{table.pk}}'"value="Detail"></td>
+        </tr>
+        {%endfor%}
+    </table>
+{%endblock%}
+
+{%block right%}
+{%endblock%}
+
+
+{%block bottom%}
+{%endblock%}

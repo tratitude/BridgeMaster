@@ -1,0 +1,23 @@
+{% extends 'Member/base.html' %}
+
+{%block title%}
+    General Game
+{%endblock%}
+
+{%block user%}
+         {{name}}
+        <input type="button" value="修改資料" onclick="location='/Member/modify/'">
+        <input type="button" value="登出" onclick="location='/Member/logout/'">
+{%endblock%}
+
+{%block content%}
+    <h3>Please Enter The UserName<br><br>
+    N:<input type="text" name="playerN">
+    E:<input type="text" name="playerN">
+    W:<input type="text" name="playerN">
+    S:<input type="text" name="playerN"></h3>
+{%endblock%}
+
+{%block bottom%}
+
+{%endblock%}

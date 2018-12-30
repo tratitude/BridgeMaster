@@ -1,31 +1,33 @@
+{% extends 'Member/base.html' %}
+
+{% block title %}
+        SignUp
+{% endblock %}
 
 {% block content %}
-
-<html>
-<form action="." method="POST" name="form1">
-    {% csrf_token %}
-	<span style="color:blue">{{message}}</span>
-	<p><span style="color:red">*</span>為必填</p>
-    <p>
-	<span style="color:red">*</span>
-	帳號：<input type="text" name="username" id="username" required="required"/>
-	</p>
-    <p>
-	<span style="color:red">*</span>
-	密碼：<input type="password" name="password" id="password" required="required"/>
-	</p>
-	<span style="color:red">*</span>
-	確認密碼：<input type="password" name="password2" id="password2" required="required"/>
-	</p>
-	<p>
-	<span style="color:red">*</span>
-	暱稱：<input type="text" name="firstname" id="firstname" size="10" required="required"/>
-	</p>
-	<p>
-    <span style="color:red">*</span> 
-    <input type="submit" name="button" id="button" value="提交" /> 
-    </p>
-</form>
-</html>
-
+	<form action="." method="POST" name="form1">
+		{% csrf_token %}
+		<span style="color:blue">{{message}}</span>
+		<p><span style="color:red">*</span>為必填</p>
+		<p>
+		<span style="color:red">*</span>
+		帳號：<input type="text" name="username" id="username" required="required"/>
+		</p>
+		<p>
+		<span style="color:red">*</span>
+		密碼：<input type="password" name="password" id="password" required="required"/>
+		</p>
+		<span style="color:red">*</span>
+		確認密碼：<input type="password" name="password2" id="password2" required="required"/>
+		</p>
+		<p>
+		<span style="color:red">*</span>
+		暱稱：<input type="text" name="firstname" id="firstname" size="10" required="required"/>
+		</p>
+		<p>
+		<!--<span style="color:red">*</span>-->
+		<input type="submit" name="button" id="button" value="提交" />
+			<input type="button" onclick=location.href="javascript:history.go(-1);" value="返回">
+		</p>
+	</form>
 {% endblock %}
