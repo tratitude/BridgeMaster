@@ -1,0 +1,41 @@
+<html>
+<head>
+<style>
+.center {
+  text-align: center;
+  margin: auto;
+  width: 60%;
+  border: 3px solid #73AD21;
+  padding: 50px;
+  white-space:nowrap;
+}
+</style>
+</head>
+<body>
+<div class = "center">
+    <div style="font-size:50px;">{%block title%}{%endblock%}</div>
+
+    <div style="font-size:22px;float:right;">
+            {%block user%}
+            {%endblock%}
+
+    </div>
+</div>
+
+<div style = "text-align:center">
+    {%block content%}
+    {%endblock%}
+</div>
+ <div style="position:absolute;top:200px;right:300px;">
+    {%block right%}
+     {%endblock%}
+ </div>
+</body>
+<body>
+<div style="margin:auto;padding:100px;text-align:center;float:bottom;">
+    {%block bottom%}
+    {%endblock%}
+    <input type="button" onclick=location.href="javascript:history.go(-1);" value="返回">
+</div>
+</body>
+</html>

@@ -1,24 +1,44 @@
-{% block content %}
+{%extends 'Member/base.html'%}
 
-<html>
-<form action="." method="POST" name="form1">
-    {% csrf_token %}
-    {{message}}
-	<p> <span style="color:rgb(131, 7, 248)">帳號:{{username}}</span></p>
-	<p>修改暱稱:
-	<input type="text" value="{{name}}" name="firstname" id="firstname" />
-    </p>
-    <p>請輸入當前密碼:
-    <input type="password" name="current_pass" id="current_pass" />
-    </p>
-    <p>請輸入新密碼:
-    <input type="password" name="new_pass" id="new_pass" />
-    </p>
-    <p>確認新密碼:
-    <input type="password" name="check_pass" id="check_pass" />
-    </p>
-	<input type="submit" name="button" id="button" value="提交" />
-	<input type="button" value="返回" onclick="location='/Member/index/'"/>
-</form>
-</html>
+{%block title%}
+    Modify
+{%endblock%}
+
+
+{% block content %}
+    <script language="javascript">
+        function ChangeDisabled(value){
+        　if(value=='1'){
+        　   document.getElementById('current_pass').disabled=false;　// 變更欄位為可用
+             document.getElementById('new_pass').disabled=false;　// 變更欄位為可用
+             document.getElementById('check_pass').disabled=false;　// 變更欄位為可用
+        　}else{
+            document.getElementById('current_pass').disabled=true;　// 變更欄位為禁用
+            document.getElementById('new_pass').disabled=true;　// 變更欄位為禁用
+            document.getElementById('check_pass').disabled=true;　// 變更欄位為禁用
+        　}
+        }
+    </script>
+    <form action="." method="POST" name="form1">
+        {% csrf_token %}
+        {{message}}
+        <p> <span style="color:rgb(131, 7, 248)">帳號:{{username}}</span></p>
+        <p>修改暱稱:
+        <input type="text" value="{{name}}" name="firstname" id="firstname" />
+        </p>
+        <p>是否修改密碼：
+        <input type="button" value='是' onclick="ChangeDisabled(1)">
+        <input type="button" value='否' onclick="ChangeDisabled(2)">
+        </p>
+        <p>請輸入當前密碼:
+        <input type="password" name="current_pass" id="current_pass" disabled  />
+        </p>
+        <p>請輸入新密碼:
+        <input type="password" name="new_pass" id="new_pass" disabled/>
+        </p>
+        <p>確認新密碼:
+        <input type="password" name="check_pass" id="check_pass" disabled/>
+        </p>
+        <input type="submit" name="button" id="button" value="提交" />
+    </form>
 {% endblock %}

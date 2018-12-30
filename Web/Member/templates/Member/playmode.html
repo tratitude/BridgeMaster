@@ -1,0 +1,27 @@
+{% extends 'Member/base.html' %}
+
+{% block title %}
+        Please Select Your Playing Mode!!!
+{% endblock %}
+
+{%block user%}
+     {{name}}
+        <input type="button" value="修改資料" onclick="location='/Member/modify/'">
+        <input type="button" value="登出" onclick="location='/Member/logout/'">
+{%endblock%}
+
+{% block content  %}
+    <input type = "Button" style = "font-size:25px" value = 'Classic'
+             onclick ="location.href='/Member/playmode=0/'">
+    <input type = "Button" style = "font-size:25px" value = 'General'
+             onclick ="location.href='/Member/playmode=1/'">
+    <!--
+    <form action = "/Member/GameStart/" method ="POST">
+        <input style = "font-size:25px"type = "submit" value = 'Classic' name = 'GameMode'>
+        <input style = "font-size:25px"type = "submit" value = 'General' name = 'GameMode'>
+    </form> -->
+{% endblock %}
+
+{%block bottom%}
+
+{%endblock%}

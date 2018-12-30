@@ -1,0 +1,26 @@
+{% extends 'Member/base.html' %}
+
+{%block title%}
+    Classic Game
+{%endblock%}
+
+{%block user%}
+        {{name}}
+        <input type="button" value="修改資料" onclick="location='/Member/modify/'">
+        <input type="button" value="登出" onclick="location='/Member/logout/'">
+{%endblock%}
+
+{%block content%}
+    <h3>Please Select a Classic Game</h3>
+    <form>
+        <select name="Game">
+            {%for ClassicGame in ClassicGames%}
+                <option value=i>{{ClassicGame}}</option>
+            {%endfor%}
+        </select>
+    </form>
+{%endblock%}
+
+{%block bottom%}
+    <input type="button" onclick=location.href="javascript:history.go(-1);" value="返回">
+{%endblock%}
