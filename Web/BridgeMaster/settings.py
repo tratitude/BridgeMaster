@@ -25,7 +25,7 @@ SECRET_KEY = '@h@@xnz3+&j@6u^@$5jk1tr4et)=z6nm*l8j7n#4dp*^ap@e^z'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -99,14 +99,16 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
-
+SESSION_SAVE_EVERY_REQUEST = True
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE=60*10 #10 mins
+WEBSOCKET_ACCEPT_ALL = True
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'GMT+8'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

@@ -2,22 +2,45 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate
 from django.contrib import auth
+from django .utils import timezone
 from django.contrib.auth.models import User
 from django.template.context_processors import csrf
+from django.contrib.sessions.models import Session
 from django.views import View
 from Member.models import rounds,table,seat
+from django.contrib.auth.decorators import login_required
+from dwebsocket import accept_websocket
+from django.contrib.sessions.backends.db import SessionStore
+from django.http import HttpResponse
+import time
+from datetime import datetime
 
 
 
 # Create your views here.
 # superuser admin/admin123
-def verify(request):
-	if not request.user.is_authenticated:  # 確認登入狀態
-		return redirect("/Member/login/")
+@accept_websocket
+def connect(request):
+	if request.is_websocket():
+		print(1213312131231)
+		message = request.websocket.wait()  # 接受前段发送来的数据
+		print(message)
+		while 1:
+			if message:
+				request.websocket.send('test')  # 发送给前段的数据
+				print(message)
+				time.sleep(2)
+			elif message=="88888":
+				print(232222222222)
+				request.websocket.colse()
+
+
+def Name(request):
 	name = request.user.first_name
 	if name == "":
 		name = request.user.username
 	return name
+
 def login(request):
 	if request.user.is_authenticated:		#確認登入狀態
 		return redirect("/Member/index/")
@@ -25,17 +48,26 @@ def login(request):
 		name = request.POST['username']
 		password = request.POST['password']
 		user = authenticate(username=name, password=password)
-		if user is not None:
+		sessions = Session.objects.filter(expire_date__gt=timezone.now())
+		logged_in = []
+		for session in sessions:
+			user_id = session.get_decoded().get('_auth_user_id')
+			logged_in.append(user_id)
+		if	 str(user.id) in logged_in:
+			message = '重複登錄'
+		elif (user is not None):
 				auth.login(request,user)
 				return redirect("/Member/index/")
 		else:
 			message = '登入失敗！'
 	return render(request, "Member/login.html", locals())
 
+@login_required(login_url='/Member/login/')
 def index(request):
-	name = verify(request)
+	name = Name(request)
 	message="Welcome To BridgeMaster !!!"
 	return render(request, "Member/index.html", locals())
+
 
 def sign_up(request):
 	if request.method == 'POST':
@@ -59,12 +91,12 @@ def sign_up(request):
 	return render(request, "Member/sign_up.html", locals())
 
 def logout(request):
-	auth.logout(request)	
+	auth.logout(request)
+	message="登出成功"
 	return redirect('/Member/login/')
-	message="登出成功"	
 
+@login_required(login_url='/Member/login/')
 def modify(request):
-	verify(request)
 	user=request.user
 	username=user.username
 	#name=user.first_name
@@ -92,20 +124,31 @@ def modify(request):
 		return redirect("/Member/index/")
 	return render(request,"Member/modify.html",locals())
 
+
+@login_required(login_url='/Member/login/')
 def playmode(request,pm='x'):
-	name = verify(request)
+	name = Name(request)
 	if pm!='x':
 		if(pm==0):	#Classic
 			return render(request,"Member/Classic.html",locals())
 		elif (pm==1):	#General
+			BMBCs = []
+			SessionStore.clear_expired()
+			sessions = Session.objects.all()
+			for session in sessions:
+				s = session.get_decoded()
+				BMBCs.append(s)
 			return render(request,"Member/General.html",locals())
-	if request.POST['BridgeMasterBaseCode'] =="1":
-		request.session['BMBC'] = request.POST['BridgeMasterBaseCode']
-		return render(request, "Member/playmode.html", locals())
-	return redirect("/Member/index/")
+	#if request.POST['BridgeMasterBaseCode'] =="1":
+	BMBC = request.POST['BridgeMasterBaseCode']
+	request.session['BMBC'] = BMBC
+	return render(request, "Member/playmode.html", locals())
+#	return redirect("/Member/index/")
 
+
+@login_required(login_url='/Member/login/')
 def tableinformation(request,tid='x'):
-	name = verify(request)
+	name = Name(request)
 	if	tid=="x":
 		tables = table.objects.all()
 		return render(request,"Member/table.html",locals())
