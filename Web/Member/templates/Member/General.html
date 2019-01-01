@@ -11,7 +11,35 @@
 {%endblock%}
 
 {%block content%}
+    <script type="text/javascript">
+    function SendMSG(value){
+        var socket = new WebSocket("ws:" + window.location.host + "/Member/connect/");
+            socket.onopen = function () {
+                console.log('WebSocket open');
+                socket.send(value);
+            };
+            socket.onmessage = function (e) {
+                console.log('message: ' + e.data);
+            };
+            socket.onclose=function(e){
+              console.log(e);
+              socket.close();
+            };
+            if (socket.readyState == WebSocket.OPEN) socket.onopen();
+    }
+    </script>
+    {%for BMBC in BMBCs%}
+        {{BMBC}}<br>
+
+
+        {%for key,value in BMBC.items%}
+            {%ifequal 'BMBC' key%}
+                {{value}}<br>
+            {%endifequal%}
+        {%endfor%}
+    {%endfor%}
     <h3>Please Enter The UserName<br><br>
+        <input type="button" value='是' onclick="SendMSG(5)">
     N:<input type="text" name="playerN">
     E:<input type="text" name="playerN">
     W:<input type="text" name="playerN">

@@ -14,6 +14,7 @@ urlpatterns = [
 	path('playmode=<int:pm>/',views.playmode,name = 'playmode'),
 	path('Table/',views.tableinformation,name = 'table'),
 	path('Table/<int:tid>',views.tableinformation,name = 'table'),
+	path('connect/',views.connect,name='connect'),
 #	path('GameStart/',views.GameStart,name = 'GameStart')
 	#path('modify_password/',views.modify_password),
 ]
