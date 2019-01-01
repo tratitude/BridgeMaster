@@ -132,12 +132,18 @@ def playmode(request,pm='x'):
 		if(pm==0):	#Classic
 			return render(request,"Member/Classic.html",locals())
 		elif (pm==1):	#General
-			BMBCs = []
+			Users = []
 			SessionStore.clear_expired()
 			sessions = Session.objects.all()
 			for session in sessions:
 				s = session.get_decoded()
-				BMBCs.append(s)
+				if s['BMBC']==request.session['BMBC']:		#取出所有BMBC相同的玩家
+					Users.append(s['_auth_user_id'])
+			Usernames = []
+			for user in Users:
+				username = User.objects.filter(id=user)
+				for us in username:
+					Usernames.append(us)
 			return render(request,"Member/General.html",locals())
 	#if request.POST['BridgeMasterBaseCode'] =="1":
 	BMBC = request.POST['BridgeMasterBaseCode']
