@@ -125,6 +125,7 @@ def modify(request):
 	return render(request,"Member/modify.html",locals())
 
 
+
 @login_required(login_url='/Member/login/')
 def playmode(request,pm='x'):
 	name = Name(request)
@@ -144,6 +145,11 @@ def playmode(request,pm='x'):
 				username = User.objects.filter(id=user)
 				for us in username:
 					Usernames.append(us)
+			if len(Usernames)>4:
+				message = "該房間已客滿!!!"
+				return render(request,"Member/index,html",locals())
+			elif len(Usernames)==4:
+				message = "遊戲準備開始!!!"
 			return render(request,"Member/General.html",locals())
 	#if request.POST['BridgeMasterBaseCode'] =="1":
 	BMBC = request.POST['BridgeMasterBaseCode']
