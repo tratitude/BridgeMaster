@@ -2,13 +2,9 @@
 
 {%block title%}
     General Game
+    {{message}}
 {%endblock%}
-<script type="text/javascript">
-      function myrefresh(){
-        window.location.reload();
-    }
-    setTimeout('myrefresh()',5000);
-</script>
+
 {%block user%}
          {{name}}
         <input type="button" value="修改資料" onclick="location='/Member/modify/'">
@@ -16,7 +12,12 @@
 {%endblock%}
 
 {%block content%}
+
     <script type="text/javascript">
+      function myrefresh(){
+        window.location.reload();
+    }
+    setTimeout('myrefresh()',5000);
     function SendMSG(value){
         var socket = new WebSocket("ws:" + window.location.host + "/Member/connect/");
             socket.onopen = function () {
@@ -33,7 +34,7 @@
             if (socket.readyState == WebSocket.OPEN) socket.onopen();
     }
     </script>
-<div style="text-algn:center;font-size:20px;">
+<div style="position:absolute;right:330px;font-size:20px;">
     <h3>BMBC: {{request.session.BMBC}}</h3>
 </div>
 <div style="font-size:20px;position:absolute;left:400px;top:200px;">
@@ -65,5 +66,7 @@
     {%endblock%}
 
 {%block bottom%}
-
+    <form action="/Member/playmode" >
+         <input type="submit" value="Ready" name="state">
+    </form>
 {%endblock%}
