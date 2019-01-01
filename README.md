@@ -10,7 +10,7 @@
 - django==2.0.5
 ### admin
 - account: admin
-- password: 1234
+- password: bridge1234
 ### app
 - Member system  徐煒博
   - rank
