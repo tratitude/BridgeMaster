@@ -18,6 +18,7 @@
 - Auction learning system 李孟叡
   - web crawler
   - visualize learning
+  - [ACBL learn to play bridge](http://www.learn2playbridge.com/)
 - Analysis system 吳凱倫
   - auction best case
   - playing best case
