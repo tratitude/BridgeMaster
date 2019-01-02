@@ -37,3 +37,19 @@
 - Connect to server 賴冠穎
 - LCD monitor output 吳凱倫
 - Deal cards 廖敏翔, 李孟叡
+
+## ER schema
+- Tid
+- bid (have first bid player)
+- N
+- E
+- S
+- W
+- vulnerable
+- contract
+- leader
+- ---------------
+- Rnumber(new)
+- declarer
+- result (declarer's win trick)
+- score (declarer's score)
