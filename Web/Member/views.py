@@ -53,7 +53,7 @@ def login(request):
 		for session in sessions:
 			user_id = session.get_decoded().get('_auth_user_id')
 			logged_in.append(user_id)
-		if	 str(user.id) in logged_in:
+		if (user is not None)and str(user.id) in logged_in:
 			message = '重複登錄'
 		elif (user is not None):
 				auth.login(request,user)
@@ -204,6 +204,8 @@ def tableinformation(request,tid='x'):
 def Add(request):
 	if request.method=="POST":
 
+		unit = table.objects.create()
+		unit.save()
 	else:
 		message = '請輸入資料'
 	return render(request,"/Member/Add.html/",locals())

@@ -1,7 +1,6 @@
 from django.urls import path
 from django.conf.urls import url
 from django.contrib.auth import views as auth_views
-
 from . import views
 
 urlpatterns = [
@@ -16,5 +15,5 @@ urlpatterns = [
 	path('Table/<int:tid>',views.tableinformation,name = 'table'),
 	path('connect/',views.connect,name='connect'),
 #	path('GameStart/',views.GameStart,name = 'GameStart')
-	#path('modify_password/',views.modify_password),
+#	path('modify_password/',views.modify_password),
 ]
