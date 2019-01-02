@@ -6,33 +6,52 @@
 - Select playing mode on website
 - Auction on the BridgeMaster Base
 - Analysis on the website
+## Bridge Master Base
+- dealer
+- auction input (by keyboard)
+- monitor output (by oled)
+### module design
+- [Python Tutorial 第二堂（3）函式、模組、類別與套件](http://www.codedata.com.tw/python/python-tutorial-the-2nd-class-3-function-module-class-package)
 ## Web server
 - django==2.0.5
 ### admin
 - account: admin
+<<<<<<< HEAD
 - password: admin1234
+=======
+- password: bridge1234
+>>>>>>> gitignore
 ### app
 - Member system  徐煒博
   - rank
   - member data
-- Auction learning system 李孟叡
-  - web crawler
-  - visualize learning
+  - some query for history games
 - Analysis system 吳凱倫
-  - auction best case
-  - playing best case
+  - double dummy solver
 - Playing mode 廖敏翔
   - random or classic game
     - round要加入首引的玩家和牌(classic game)
     - 最後的合約(classic game)
     - lead_player=NULL(classic game)
     - bid要紀錄4家(歷史牌局)
-  - classic game explaintion
-## BridgeMaster Base
-### function
-- Recognition poker 徐煒博
-- Auction input 賴冠穎
-- Calculate scores 賴冠穎
-- Connect to server 賴冠穎
-- LCD monitor output 吳凱倫
-- Deal cards 廖敏翔, 李孟叡
+  - classic game history(列出該classic game所有玩過的牌局）
+  - communicate with BMB
+- teaching system 李孟叡(optional)
+  - web crawler
+  - visualize teaching
+  - [ACBL learn to play bridge](http://www.learn2playbridge.com/)
+### ER schema
+- Tid
+- bid (have first bid player)
+- N
+- E
+- S
+- W
+- vulnerable
+- contract
+- leader
+- ---------------
+- board
+- declarer
+- result (declarer's win trick)
+- score (declarer's score)
