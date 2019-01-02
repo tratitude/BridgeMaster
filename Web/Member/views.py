@@ -13,7 +13,7 @@ from dwebsocket import accept_websocket
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import HttpResponse
 import time
-from datetime import datetime
+from datetime import datetime,date,timedelta
 
 
 
@@ -158,17 +158,53 @@ def playmode(request,pm='x'):
 #	return redirect("/Member/index/")
 
 
+def timefilter(t,tabs):
+	start = date.today()
+	end = start-timedelta(days=int(t))
+	print(end)
+	return tabs.filter(time__range=[end,start])
+
 @login_required(login_url='/Member/login/')
 def tableinformation(request,tid='x'):
-	name = Name(request)
-	if	tid=="x":
+	permission = False
+	seats = seat.objects.filter(PlayerID=request.user.id)
+	mytable = []
+	for s in seats:
+		mytable.append(s.TableID.pk)
+	mytable = set(mytable)		#去除重複
+	tables = table.objects.filter(pk__in=mytable)		#一般使用者
+	if request.user.is_staff==True:
+		permission = True			#管理者
 		tables = table.objects.all()
+	name = Name(request)
+	if	tid=="x":		# 牌桌資訊一覽
+		if request.method=="POST":
+			time = request.POST['TimeRange']	#選擇條件
+			tables = timefilter(time,tables)
+			if 'order' in request.POST:
+				ord = request.POST['order']		#排序條件
+				tables = tables.order_by(ord)
+				if "ORDER" in request.session:
+					tables = tables.reverse()
+					del request.session["ORDER"]
+				else:
+					request.session["ORDER"] = '1'
+			return render(request, "Member/table.html", locals())
 		return render(request,"Member/table.html",locals())
-	tables = table.objects.filter(pk=tid)
+	#編號.tid 牌桌之牌局資訊一覽
+	tables = tables.filter(pk=tid)
 	Nseat = seat.objects.filter(TableID=tid,position="N")
 	Eseat = seat.objects.filter(TableID=tid, position="E")
 	Wseat = seat.objects.filter(TableID=tid, position="W")
 	Sseat = seat.objects.filter(TableID=tid, position="S")
 	Rounds = rounds.objects.filter(T_id=tid)
 	return render(request,"Member/tabledetail.html",locals())
+
+
+def Add(request):
+	if request.method=="POST":
+
+	else:
+		message = '請輸入資料'
+	return render(request,"/Member/Add.html/",locals())
 
