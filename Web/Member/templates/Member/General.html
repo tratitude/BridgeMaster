@@ -17,7 +17,7 @@
       function myrefresh(){
         window.location.reload();
     }
-    setTimeout('myrefresh()',5000);
+    setTimeout('myrefresh()',10000);
     function SendMSG(value){
         var socket = new WebSocket("ws:" + window.location.host + "/Member/connect/");
             socket.onopen = function () {
@@ -66,7 +66,7 @@
     {%endblock%}
 
 {%block bottom%}
-    <form action="/Member/playmode" >
+   <!-- <form action="/Member/playmode" >
          <input type="submit" value="Ready" name="state">
-    </form>
+    </form> -->
 {%endblock%}
