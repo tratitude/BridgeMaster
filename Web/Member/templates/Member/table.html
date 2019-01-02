@@ -5,29 +5,69 @@
 {%endblock%}
 
 {%block user%}
-        {{name}}
+        {{name}}:{{permission}}
         <input type="button" value="修改資料" onclick="location='/Member/modify/'">
         <input type="button" value="登出" onclick="location='/Member/logout/'">
 {%endblock%}
 
 {%block content%}
-    <table style="text-align:center;" border="1" cellpadding="0" cellspacing="0" align="center" valign="middle">
-        <tr><th>MachineID</th>
-        <th>NS_Point</th>
-        <th>EW_Point</th>
-        <th>Round</th>
+<!--<script type="text/javascript">
+    $.ajaxSetup({
+        data: {csrfmiddlewaretoken: '{{ csrf_token }}' },
+    });
+    function orderby(ord){
+        $.post('/Member/Table/',{'order':ord});
+    }
+</script>-->
+<style>
+input[type=submit]:not(.a){
+ -webkit-border-radius: 60;
+  -moz-border-radius: 60;
+  border-radius: 60px;
+  font-size: 0px;
+  padding: 0px;
+  border: solid #1f628d 5px;
+  text-decoration: none;
+}
+</style>
+<form method="post" action="/Member/Table/">
+<div style="">
+    MachineID:<input type="text" name="BMBC">
+    NS_Point範圍:<input type="text" name="NS_Point">
+    EW_Point範圍:<input type="text" name="EW_Point"><br>
+
+
+</div>
+<div style="position:absolute;top:220px;left:485px">
+    <table style="text-align:center;" border="2" align="center" >
+            {% csrf_token %}
+        <tr><th>MachineID<input type="submit" name = 'order'value="MachineID"></th>
+        <th>NS_Point<input type="submit" name = 'order'value="NS_TotalPoint"></th>
+        <th>EW_Point<input type="submit" name = 'order'value="EW_TotalPoint"></th>
+        <th>Round<input type="submit" name = 'order'value="RoundNum"></th>
+        <th>Time<input type="submit" name = 'order'value="-time">
+            <select name="TimeRange">
+                <option value="99999">無限制</option>
+                <option value="7">1個禮拜內</option>
+                <option value="30">1個月內</option>
+                <option value="180">半年內</option>
+                <option value="365">1年內</option>
+            </select>
+        </th>
         <th>Detail</th>
-            
         {%for table in tables%}
         <tr>
         <td>{{table.MachineID}}</td>
         <td>{{table.NS_TotalPoint}}</td>
         <td>{{table.EW_TotalPoint}}</td>
         <td>{{table.RoundNum}}</td>
+            <td>{{table.time}}</td>
         <td><input type="button" onclick="location.href='{{table.pk}}'"value="Detail"></td>
         </tr>
         {%endfor%}
     </table>
+</div>
+
 {%endblock%}
 
 {%block right%}
@@ -35,4 +75,6 @@
 
 
 {%block bottom%}
+<input type="submit" class="a">
 {%endblock%}
+     </form>
