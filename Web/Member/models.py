@@ -44,16 +44,18 @@ class rounds(models.Model):
     W = models.CharField(max_length = 38)
     S = models.CharField(max_length = 38)
    #身價
-    NS = models.BooleanField()
-    EW = models.BooleanField()
-   #吃下的噔數
-    NS_Trick = models.DecimalField(max_digits =1,decimal_places=0)
-    EW_Trick = models.DecimalField(max_digits=1,decimal_places=0)
+    vulnerable = models.CharField(max_length = 4)    #None:0, NS:1, EW:2, All:3
+   #declarer吃下的噔數
+    result = models.DecimalField(max_digits =1,decimal_places=0)
+    declarer = models.CharField(max_length =1)  # N/S/E/W
+    Rnum = models.DecimalField(max_digits=2,decimal_places=0)    #1~16
+    score = models.DecimalField(max_digits=4,decimal_places=0)   #declarer的得分
+
     def __str__(self):
         return str(self.T_id)        #回傳TableID
 class roundsAdmin(admin.ModelAdmin):
-    list_display = ['T_id','NS','EW','NS_Trick','EW_Trick']
-    search_fields = ['T_id','NS','EW','NS_Trick','EW_Trick']
+    list_display = ['T_id','Rnum','declarer','score','result','vulnerable']
+    search_fields = ['T_id','Rnum','declarer','score','result','vulnerable']
     ordering = ['T_id']
 
 

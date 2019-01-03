@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.contrib.auth import authenticate
 from django.contrib import auth
 from django .utils import timezone
@@ -12,7 +12,9 @@ from django.contrib.auth.decorators import login_required
 from dwebsocket import accept_websocket
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import HttpResponse
-import time
+import time,json
+from django.views.decorators.csrf import csrf_exempt
+
 from datetime import datetime,date,timedelta
 
 
@@ -209,4 +211,32 @@ def Add(request):
 	else:
 		message = '請輸入資料'
 	return render(request,"/Member/Add.html/",locals())
+
+@csrf_exempt
+def Json(request):
+    if request.body:
+        json_data = json.loads(request.body)
+        print(request.body)
+        return render(request,"Member/index.html/",locals())
+    return render(request,"Member/Json.html/",locals())
+    response = HttpResponse(content_type='applicaiton/json')
+    tables = table.objects.values()
+    response.write("TableInformation:\r\n")
+    for t in tables:
+        response.write(t)
+        response.write("\r\n")
+    seats = seat.objects.values()
+    response.write("SeatInformation:\r\n")
+    for s in seats:
+        response.write(s)
+        response.write("\r\n")
+    roundss = rounds.objects.values()
+    response.write("RoundInformation:\r\n")
+    for r in roundss:
+        response.write(r)
+        response.write("\r\n")
+    return response
+    #return JsonResponse(t)
+    #response = HttpResponse(t,content_type='applicaiton/json')
+    #return render(request,"Member/Json.html/",locals())
 
