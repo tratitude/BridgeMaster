@@ -36,7 +36,7 @@ class rounds(models.Model):
    # dealer=models.CharField(max_length=2)  ??我不知道這要幹嘛
     T_id = models.ForeignKey('table', on_delete=models.CASCADE)
     bid = models.CharField(max_length = 100)    # 開喊位置+喊牌紀錄 Eg.(3,1NT,PS,3C,3S,4NT)
-    leader = models.DecimalField(max_digits = 1,decimal_places=0)      # 首引位置
+    leader = models.CharField(max_length = 1)      # 首引位置 N/E/S/W
     contract = models.CharField(max_length = 2)      #該局的王牌花色
    # 各家手牌 OrderBy出牌順序 Eg.(SA,SK,SQ,SJ,HA,HK,HQ,HJ.....)
     N = models.CharField(max_length = 38)
