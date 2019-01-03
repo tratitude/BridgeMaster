@@ -214,7 +214,17 @@ def Add(request):
 
 @csrf_exempt
 def Json(request):
-    if request.body:
+	if request.body:
+		data = json.loads(request.body)		#成功收到pi傳來的資料
+		T = table.objects.get(pk=data['T_id'])
+		unit = rounds.objects.create(T_id=T,bid=data['bid'],leader=['leader'],
+									 contract=data['contract'],N=data['N'],E=data['E'],W=data['W'],
+									 S=data['S'],vulnerable=data['vulnerable'],result=data['result'],
+									 declarer=data['declarer'],Rnum=data['Rnum'],score=data['score'])
+		unit.save()
+	return JsonResponse({'test': 'work!'})
+"""
+if request.body:
         json_data = json.loads(request.body)
         print(request.body)
         return render(request,"Member/index.html/",locals())
@@ -239,4 +249,5 @@ def Json(request):
     #return JsonResponse(t)
     #response = HttpResponse(t,content_type='applicaiton/json')
     #return render(request,"Member/Json.html/",locals())
+    """
 
