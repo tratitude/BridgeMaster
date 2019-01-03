@@ -1,0 +1,67 @@
+{% extends 'Member/base.html' %}
+
+{%block title%}
+
+{%endblock%}
+
+{%block user%}
+{%endblock%}
+
+{%block content%}
+
+<script type="text/javascript">
+
+    function test(){
+        var obj = {
+            test: 1,
+            num: 2,
+        };
+        var myJSON = JSON.stringify(obj);
+        var form = document.createElement("form");
+        form.setAttribute("method","post");
+        form.setAttribute("action","/Member/Json/");
+
+        var tt = document.createElement("input");
+        tt.setAttribute("type","text");
+        tt.setAttribute("name","tex");
+        tt.setAttribute("value",myJSON);
+        form.appendChild(tt);
+        document.body.appendChild(form);
+        form.submit();
+     }
+</script>
+<script type="text/javascript">
+    function submit_sync () {
+        $.ajax({
+            type: "post",
+            url: '/Member/Json/',
+            async: false, // 使用同步方式
+            // 1 需要使用JSON.stringify 否则格式为 a=2&b=3&now=14...
+            // 2 需要强制类型转换，否则格式为 {"a":"2","b":"3"}
+            data: JSON.stringify({
+                a: parseInt($('input[name="a"]').val()),
+                b: parseInt($('input[name="b"]').val()),
+                now: new Date().getTime() // 注意不要在此行增加逗号
+            }),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function(data) {
+                $('#result').text(data.result);
+            } // 注意不要在此行增加逗号
+        });
+     }
+</script>
+<p id="demo" onclick="test()">1234</p>
+<input type="text" name="a">
+<input type="text" name="b">
+<input type="submit" onclick="submit_sync()">
+<input type="button" onclick="post()">
+{%endblock%}
+
+{%block right%}
+
+{%endblock%}
+
+
+{%block bottom%}
+{%endblock%}
