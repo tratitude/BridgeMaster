@@ -21,13 +21,9 @@
 - Member system  徐煒博
   - rank
   - member data
-- Auction learning system 李孟叡
-  - web crawler
-  - visualize learning
-  - [ACBL learn to play bridge](http://www.learn2playbridge.com/)
+  - some query for history games
 - Analysis system 吳凱倫
-  - auction best case
-  - playing best case
+  - double dummy solver
 - Playing mode 廖敏翔
   - random or classic game
     - round要加入首引的玩家和牌(classic game)
@@ -35,6 +31,11 @@
     - lead_player=NULL(classic game)
     - bid要紀錄4家(歷史牌局)
   - classic game explaintion
+  - communicate with BMB
+- teaching system 李孟叡(optional)
+  - web crawler
+  - visualize teaching
+  - [ACBL learn to play bridge](http://www.learn2playbridge.com/)
 ### ER schema
 - Tid
 - bid (have first bid player)
