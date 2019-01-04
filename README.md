@@ -30,7 +30,7 @@
     - 最後的合約(classic game)
     - lead_player=NULL(classic game)
     - bid要紀錄4家(歷史牌局)
-  - classic game explaintion
+  - classic game history(列出該classic game所有玩過的牌局）
   - communicate with BMB
 - teaching system 李孟叡(optional)
   - web crawler
