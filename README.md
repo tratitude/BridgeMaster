@@ -6,6 +6,12 @@
 - Select playing mode on website
 - Auction on the BridgeMaster Base
 - Analysis on the website
+## Bridge Master Base
+- dealer
+- auction input (by keyboard)
+- monitor output (by oled)
+### module design
+- [Python Tutorial 第二堂（3）函式、模組、類別與套件](http://www.codedata.com.tw/python/python-tutorial-the-2nd-class-3-function-module-class-package)
 ## Web server
 - django==2.0.5
 ### admin
@@ -29,16 +35,7 @@
     - lead_player=NULL(classic game)
     - bid要紀錄4家(歷史牌局)
   - classic game explaintion
-## BridgeMaster Base
-### function
-- Recognition poker 徐煒博
-- Auction input 賴冠穎
-- Calculate scores 賴冠穎
-- Connect to server 賴冠穎
-- LCD monitor output 吳凱倫
-- Deal cards 廖敏翔, 李孟叡
-
-## ER schema
+### ER schema
 - Tid
 - bid (have first bid player)
 - N
