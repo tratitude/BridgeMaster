@@ -47,7 +47,7 @@
 - contract
 - leader
 - ---------------
-- Rnumber(new)
+- board
 - declarer
 - result (declarer's win trick)
 - score (declarer's score)
