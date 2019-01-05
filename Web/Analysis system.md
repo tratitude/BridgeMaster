@@ -60,3 +60,37 @@ same number of cards played at this trick.
 - The term ”equivalent position” is useful in this case
 - **Definition 4. Two positions are equivalent when they have equal minimax score for
 the remaining tricks.**
+- finding a subset of equivalent positions, is computationally easy
+enough to give us an impressive performance boost
+- In our implementation, we distinguish equivalent positions, based on the ordering of
+the cards.
+- **Definition 5.**
+> - Relative rank: The relative rank of a card C is defined as the number of unplayed
+> cards, that have the same suit as C and are outranked by C.
+> - Relative hand: The relative hand is defined as the relative rank of the cards of the
+> hand, grouped by suit.
+> - Relative position: The relative position is defined as the four relative hands of the
+> position.
+#### 4.3.3 Implementation details about the transposition table
+- In our hash table the key consist of two parts, the hash (or index) and the tag
+- A 27-bit hash and 64-bit tag can generate enough keys
+### 4.4 Implementing an iterative deepening zero window search algorithm
+#### 4.4.1 The primitives of the idzws algorithm
+- **Theorem 2.**
+> If the minimax score of a double-dummy problem at depth N (0 ≤ N <
+> 13) is S, at depth N + 1 the minimax score will either be S + 1 or S − 1
+- **Algorithm 1.** 
+> Supposing that minimax(a, b, N) computes the minimax score of the problem at
+> depth N, with α cutoff being a, and β cutoff being b. We use the following algorithm to compute
+> the minmax score at depth 13.
+> - score = 0;
+> - for(i = 1; i ≤ 13; i++) score = minimax(score-1, score+1, i);
+> - return score;
+- **Definition 6.**
+> - Terms used in the generic idzws algorithm:
+> - M M (N ): The minimax score of the double-dummy problem at depth N. M M (13) is
+> the minimax value of the complete game.
+> - C(N ): The set of scores that satisfy the following restriction:
+>   - x ∈ C(N ) ⇔ |x − M M (13)| ≤ (13 − N ), (x − M M (13)) ≡ (13 − N ) mod 2.
+>   - C(N ) is defined as the consistent score set of a double-dummy problem at depth
+N.
