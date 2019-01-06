@@ -92,5 +92,13 @@ the cards.
 > the minimax value of the complete game.
 > - C(N ): The set of scores that satisfy the following restriction:
 >   - x ∈ C(N ) ⇔ |x − M M (13)| ≤ (13 − N ), (x − M M (13)) ≡ (13 − N ) mod 2.
->   - C(N ) is defined as the consistent score set of a double-dummy problem at depth
-N.
+>   - C(N ) is defined as the consistent score set of a double-dummy problem at depth N.
+- **Theorem 3. properties of C(N ):**
+> 1. M M (n) ∈ C(n)∀n, 0 ≤ n ≤ 13
+> 2. C(13) = {M M (13)}
+> 3. if 0 ≤ m ≤ n ≤ 13 and x ∈ C(n), then ∀y ∈ [x + m − n, x − m + n] and
+> (x − y) ≡ (m − n) mod 2 ⇒ y ∈ C(m)
+> 4. if 0 ≤ n ≤ m ≤ 13 and x ∈ C(n), then ∃y ∈ [x − m + n, x + m − n] ⇒ y ∈ C(m)
+- **Theorem 4.**
+> - If ∃x ≥ l ⇒ x ∈ C(n) then ∃y ≥ l + n − m ⇒ y ∈ C(m)
+> - If ∃x ≤ u ⇒ x ∈ C(n) then ∃y ≤ u − n + m ⇒ y ∈ C(m)
