@@ -12,12 +12,13 @@
 
 {%block content%}
     <h3>Please Select a Classic Game</h3>
-    <form>
+    <form >
         <select name="Game">
-            {%for ClassicGame in ClassicGames%}
-                <option value=i>{{ClassicGame}}</option>
+            {%for CM in ClassicGames%}
+                <option value=i>{{CM.Event}}{{CM.Site}}{{CM.Date}},{{CM.vulnerable}}</option>
             {%endfor%}
         </select>
+
     </form>
 {%endblock%}
 

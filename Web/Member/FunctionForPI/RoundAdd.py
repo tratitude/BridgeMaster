@@ -1,9 +1,12 @@
 import time
 import json
 import requests
-def AddRound(T_id,bid,leader,contract,N,E,W,S,vulnerable,result,declarer,Rnum,score):
+def AddRound(Event,Site,Date,T_id,bid,leader,contract,N,E,W,S,vulnerable,result,declarer,Rnum,score):
 
-    Round = {   
+    Round = {
+        'Event':Event,
+        'Site':Site,
+        'Date':Date,
         'T_id':T_id,
         'bid':bid,
         'leader':leader,
@@ -24,4 +27,4 @@ def AddRound(T_id,bid,leader,contract,N,E,W,S,vulnerable,result,declarer,Rnum,sc
     #print(Data['leader']) 
 
 
-AddRound(8,"1,d2a2s213s",'N',"3NT","s12f32sd12sad","d13refqewff","f4f23f32fdfs","231fef2f23d32d","None",9,"W",3,750)
+#AddRound(8,"1,d2a2s213s",'N',"3NT","s12f32sd12sad","d13refqewff","f4f23f32fdfs","231fef2f23d32d","None",9,"W",3,750)

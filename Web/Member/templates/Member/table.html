@@ -32,15 +32,16 @@ input[type=submit]:not(.a){
 </style>
 <form method="post" action="/Member/Table/">
 <div style="">
-   <!-- 查同桌玩家:<input type="text" name="BMBC">
-    NS_Point範圍:<input type="text" name="NS_Point">
+    查主機:<input type="text" name="BMBC">
+    找朋友:<input type="text" name="Friend">
     EW_Point範圍:<input type="text" name="EW_Point"><br>
-    -->
+
 
 </div>
 <div style="position:absolute;top:220px;left:485px">
     <table style="text-align:center;" border="2" align="center" >
             {% csrf_token %}
+            {{message}}
         <tr><th>MachineID<input type="submit" name = 'order'value="MachineID"></th>
         <th>NS_Point<input type="submit" name = 'order'value="NS_TotalPoint"></th>
         <th>EW_Point<input type="submit" name = 'order'value="EW_TotalPoint"></th>

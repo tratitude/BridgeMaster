@@ -8,9 +8,24 @@
         {{name}}
         <input type="button" value="修改資料" onclick="location='/Member/modify/'">
         <input type="button" value="登出" onclick="location='/Member/logout/'">
+<script type="text/Javascript">
+     function admin(){
+            //document.write("Hello World!");
+            token = document.getElementById('PermissionToken');
+            //document.write(token.value);
+        if (token.value=="False"){
+            var Btn = document.getElementById("btn");
+            Btn.style.display = "none";
+        }
+        else{
+            window.location.href = "/Member/Administrator/";
+        }
+     }
+</script>
 {%endblock%}
 
 {%block content%}
+    <input type="hidden" value={{permission}} id='PermissionToken'>
     <h3>Please Enter Your BridgeMasterBaseCode</h3>
     <form action="/Member/playmode/" method = "post">
         {% csrf_token %}
@@ -21,7 +36,8 @@
 
 {%block right%}
     <input type="button" value="我的賽局紀錄" onclick="location='/Member/Table/'"><br>
-    <input type="button" value="Json" onclick="location='/Member/Json/'">-->
+    <input type="button" value="Json" onclick="location='/Member/Json/'"><br>
+    <input type="button" id="btn" value="管理者頁面" onclick="admin()">
 {%endblock%}
 
 {%block bottom%}
