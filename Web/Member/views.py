@@ -9,33 +9,27 @@ from django.contrib.sessions.models import Session
 from django.views import View
 from Member.models import rounds,table,seat
 from django.contrib.auth.decorators import login_required
-from dwebsocket import accept_websocket
+from collections import defaultdict
+from dwebsocket.decorators import accept_websocket,require_websocket
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import HttpResponse
 import time,json
 from django.views.decorators.csrf import csrf_exempt
-
 from datetime import datetime,date,timedelta
-
+from django.db.models	 import Q
 
 
 # Create your views here.
 # superuser admin/admin123
-@accept_websocket
-def connect(request):
-	if request.is_websocket():
-		print(1213312131231)
-		message = request.websocket.wait()  # 接受前段发送来的数据
-		print(message)
-		while 1:
-			if message:
-				request.websocket.send('test')  # 发送给前段的数据
-				print(message)
-				time.sleep(2)
-			elif message=="88888":
-				print(232222222222)
-				request.websocket.colse()
-
+def State(request):
+	StateList = []
+	SessionStore.clear_expired()
+	sessions = Session.objects.all()
+	for session in sessions:
+		s = session.get_decoded()
+		if 'BMBC' in s and 'state' in s:
+			StateList.append({s['BMBC']:s['state']})
+	return HttpResponse(StateList)
 
 def Name(request):
 	name = request.user.first_name
@@ -67,6 +61,7 @@ def login(request):
 @login_required(login_url='/Member/login/')
 def index(request):
 	name = Name(request)
+	permission = request.user.is_staff
 	message="Welcome To BridgeMaster !!!"
 	return render(request, "Member/index.html", locals())
 
@@ -133,15 +128,19 @@ def playmode(request,pm='x'):
 	name = Name(request)
 	if pm!='x':
 		if(pm==0):	#Classic
+			ClassicGames = rounds.objects.filter(T_id=None,Rnum=0)
 			return render(request,"Member/Classic.html",locals())
 		elif (pm==1):	#General
 			Users = []
 			SessionStore.clear_expired()
 			sessions = Session.objects.all()
-			for session in sessions:
-				s = session.get_decoded()
-				if s['BMBC']==request.session['BMBC']:		#取出所有BMBC相同的玩家
-					Users.append(s['_auth_user_id'])
+			try:
+				for session in sessions:
+					s = session.get_decoded()
+					if s['BMBC']==request.session['BMBC']:		#取出所有BMBC相同的玩家
+						Users.append(s['_auth_user_id'])
+			except:
+				return render(request, "Member/General.html", locals())
 			Usernames = []
 			for user in Users:
 				username = User.objects.filter(id=user)
@@ -151,17 +150,31 @@ def playmode(request,pm='x'):
 				message = "該房間已客滿!!!"
 				return render(request,"Member/index,html",locals())
 			elif len(Usernames)==4:
+				request.session['state']=1			#發送到指定BMBC主機
+				# 禁止短時間內多次創建同主機下的Table
+				if	table.objects.filter(MachineID=request.session['BMBC'],time__range=[datetime.now()-timedelta(minutes=10),datetime.now()])==None:
+					t = table.objects.create(MachineID=request.session['BMBC'],NS_TotalPoint=0,EW_TotalPoint=0,RoundNum=0)
+					t.save()
+					s = seat.objects.create(position='N',PlayerID=Usernames[0],TableID=t)
+					s.save()
+					s = seat.objects.create(position='E', PlayerID=Usernames[1], TableID=t)
+					s.save()
+					s = seat.objects.create(position='W', PlayerID=Usernames[2], TableID=t)
+					s.save()
+					s = seat.objects.create(position='S', PlayerID=Usernames[3], TableID=t)
+					s.save()
 				message = "遊戲準備開始!!!"
 			return render(request,"Member/General.html",locals())
 	#if request.POST['BridgeMasterBaseCode'] =="1":
 	BMBC = request.POST['BridgeMasterBaseCode']
 	request.session['BMBC'] = BMBC
+	request.session['state'] = 1
 	return render(request, "Member/playmode.html", locals())
 #	return redirect("/Member/index/")
 
 
 def timefilter(t,tabs):
-	start = date.today()
+	start = date.today()+timedelta(days=1)
 	end = start-timedelta(days=int(t))
 	print(end)
 	return tabs.filter(time__range=[end,start])
@@ -183,6 +196,21 @@ def tableinformation(request,tid='x'):
 		if request.method=="POST":
 			time = request.POST['TimeRange']	#選擇條件
 			tables = timefilter(time,tables)
+			if  request.POST['BMBC']!="":
+				tables = tables.filter(MachineID=request.POST['BMBC'])
+			if request.POST['Friend']!="":
+				try:
+					friend = User.objects.get_by_natural_key(request.POST['Friend'])
+				except:
+					message = "查無該使用者"
+					return render(request, "Member/table.html", locals())
+				seats = seat.objects.filter(PlayerID=friend)
+				tid = Q()
+				tid.connector = 'OR'		#用 tid1 | tid2 | tid3 |....的方式搜索
+				for s in seats:
+					s = s.TableID.pk
+					tid.children.append(('pk',s))
+				tables = tables.filter(tid)
 			if 'order' in request.POST:
 				ord = request.POST['order']		#排序條件
 				tables = tables.order_by(ord)
@@ -203,21 +231,21 @@ def tableinformation(request,tid='x'):
 	return render(request,"Member/tabledetail.html",locals())
 
 
-def Add(request):
-	if request.method=="POST":
+def Administrator(request):
 
-		unit = table.objects.create()
-		unit.save()
-	else:
-		message = '請輸入資料'
-	return render(request,"/Member/Add.html/",locals())
-
+	return render(request, "Member/Administrator.html", locals())
 @csrf_exempt
 def Json(request):
 	if request.body:
 		data = json.loads(request.body)		#成功收到pi傳來的資料
-		T = table.objects.get(pk=data['T_id'])
-		unit = rounds.objects.create(T_id=T,bid=data['bid'],leader=['leader'],
+		if data['T_id']==None:
+			T = None
+		else:
+			T = table.objects.get(pk=data['T_id'])
+			T.RoundNum += 1
+			T.save()
+		#print(data['Date'])
+		unit = rounds.objects.create(Event=data['Event'],Site = data['Site'],Date=data['Date'],T_id=T,bid=data['bid'],leader=data['leader'],
 									 contract=data['contract'],N=data['N'],E=data['E'],W=data['W'],
 									 S=data['S'],vulnerable=data['vulnerable'],result=data['result'],
 									 declarer=data['declarer'],Rnum=data['Rnum'],score=data['score'])
