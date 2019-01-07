@@ -1,0 +1,41 @@
+{% extends 'Member/base.html' %}
+
+{%block title%}
+    UserModify
+    {{message}}
+{%endblock%}
+
+{%block user%}
+    {{name}}
+        <input type="button" value="修改資料" onclick="location='/Member/modify/'">
+        <input type="button" value="登出" onclick="location='/Member/logout/'">
+{%endblock%}
+
+{%block content%}
+    <form action="/Member/modify2/" method="post">
+        {% csrf_token %}
+     <table style="text-align:center;" border="1" cellpadding="1" cellspacing="4" align="center" valign="middle">
+         <tr><th>User</th><td><input type="text" name="userid" value="{{user.id}}" readonly></td></tr>
+        <tr><th>UserFirstname</th><td><input type="text" name="UserFirstName" value="{{user.first_name}}"></td></tr>
+        <tr><th>Email</th><td><input type="text" name="UserEmail" value="{{user.email}}"></td></tr>
+        <tr><th>Active</th>
+            {% if user.is_active == True %}
+                <td><input type="radio" name="UserActive" value=True checked = checked>True
+                <input type="radio" name="UserActive" value=false >False</td>
+            {% else %}
+                <td><input type="radio" name="UserActive" value=True >True
+                <input type="radio" name="UserActive" value=False checked = checked>False</td>
+            {% endif %}
+        </tr>
+    </table>
+        <input type="submit" name="button" id="button" value="送出">
+        <input type="reset" name="button2" id="button2" value="重設">
+    </form>
+{%endblock%}
+
+{%block right%}
+{%endblock%}
+
+
+{%block bottom%}
+{%endblock%}

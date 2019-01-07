@@ -17,6 +17,7 @@ import time,json
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime,date,timedelta
 from django.db.models	 import Q
+from distutils.util import strtobool
 
 
 # Create your views here.
@@ -55,7 +56,7 @@ def login(request):
 				auth.login(request,user)
 				return redirect("/Member/index/")
 		else:
-			message = '登入失敗！'
+			message = '登入失敗！該帳號可能已遭鎖定，請聯繫管理員'
 	return render(request, "Member/login.html", locals())
 
 @login_required(login_url='/Member/login/')
@@ -120,9 +121,21 @@ def modify(request):
 		user.save()
 		return redirect("/Member/index/")
 	return render(request,"Member/modify.html",locals())
-
-
-
+@login_required(login_url='/Member/login/')
+def modify2(request):
+	if request.user.is_staff==False:
+		message = "你不是管理員"
+		return render(request,"/Member/index/",locals())
+	if request.method=="POST":
+		unit = User.objects.get(id = request.POST['userid'])
+		unit.first_name = request.POST['UserFirstName']
+		unit.email = request.POST['UserEmail']
+		unit.is_active = strtobool(request.POST['UserActive'])
+		unit.save()
+		message = "修改成功"
+		return redirect("/Member/Administrator/")
+	message = "系統錯誤"
+	return render(request,"/Member/index/",locals())
 @login_required(login_url='/Member/login/')
 def playmode(request,pm='x'):
 	name = Name(request)
@@ -230,10 +243,45 @@ def tableinformation(request,tid='x'):
 	Rounds = rounds.objects.filter(T_id=tid)
 	return render(request,"Member/tabledetail.html",locals())
 
-
+@login_required(login_url='/Member/login/')
 def Administrator(request):
-
+	if request.user.is_staff==False:
+		message = "你不是管理員"
+		return render(request,"Member/index.html",locals())
+	name = Name(request)
+	users = User.objects.filter(is_staff=False)
 	return render(request, "Member/Administrator.html", locals())
+@login_required(login_url='/Member/login/')
+def usermodify(request,uid='x'):
+	if request.user.is_staff==False:
+		message = "你不是管理員"
+		return render(request,"Member/index.html",locals())
+	if uid=='x':
+		message = "使用者ID錯誤"
+		return render(request,"Member/index.html",locals())
+	name = Name(request)
+	try:
+		user = User.objects.get(id = uid)
+	except:
+		message = "找不到該使用者"
+	return render(request, "Member/usermodify.html", locals())
+@login_required(login_url='/Member/login/')
+def userdelete(request,uid='x'):
+	if request.user.is_staff==False:
+		message = "你不是管理員"
+		return render(request,"Member/index.html",locals())
+	if uid=='x':
+		message = "使用者ID錯誤"
+		return render(request,"Member/index.html",locals())
+	name = Name(request)
+	try:
+		user = User.objects.get(id = uid)
+		user.delete()
+		message = "刪除成功"
+	except:
+		message = "刪除失敗"
+	return redirect("/Member/Administrator/")
+
 @csrf_exempt
 def Json(request):
 	if request.body:
