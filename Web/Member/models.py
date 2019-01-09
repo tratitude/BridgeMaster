@@ -7,8 +7,8 @@ class table(models.Model):
     time = models.DateTimeField(verbose_name="time",auto_now=True)
     NS_TotalPoint = models.DecimalField(max_digits = 5,decimal_places=0)
     EW_TotalPoint = models.DecimalField(max_digits = 5,decimal_places=0)
-    RoundNum = models.DecimalField(max_digits = 2,decimal_places=0)     #總共進行幾個ROUND Eg. 1/4/16
-    MachineID = models.DecimalField(max_digits = 2,decimal_places=0)
+    RoundNum = models.DecimalField(max_digits = 10,decimal_places=0)     #總共進行幾個ROUND Eg. 1/4/16
+    MachineID = models.DecimalField(max_digits = 10,decimal_places=0)
     def __str__(self):
         return str(self.pk)      #回傳TableID
 class tableAdmin(admin.ModelAdmin):
@@ -60,8 +60,8 @@ class rounds(models.Model):
     def __str__(self):
         return str(self.T_id)        #回傳TableID
 class roundsAdmin(admin.ModelAdmin):
-    list_display = ['T_id','Event','Site','Date','Rnum','declarer','score','result','vulnerable']
-    search_fields = ['T_id','Event','Site','Date','Rnum','declarer','score','result','vulnerable']
+    list_display = ['pk','T_id','Event','Site','Date','Rnum','declarer','score','result','vulnerable']
+    search_fields = ['pk','T_id','Event','Site','Date','Rnum','declarer','score','result','vulnerable']
     ordering = ['T_id']
 
 admin.site.register(table,tableAdmin)

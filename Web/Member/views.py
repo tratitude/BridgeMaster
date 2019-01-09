@@ -10,7 +10,6 @@ from django.views import View
 from Member.models import rounds,table,seat
 from django.contrib.auth.decorators import login_required
 from collections import defaultdict
-from dwebsocket.decorators import accept_websocket,require_websocket
 from django.contrib.sessions.backends.db import SessionStore
 from django.http import HttpResponse
 import time,json
@@ -18,20 +17,17 @@ from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime,date,timedelta
 from django.db.models	 import Q
 from distutils.util import strtobool
-
+from django.forms.models import model_to_dict
 
 # Create your views here.
 # superuser admin/admin123
-def State(request):
-	StateList = []
-	SessionStore.clear_expired()
-	sessions = Session.objects.all()
-	for session in sessions:
-		s = session.get_decoded()
-		if 'BMBC' in s and 'state' in s:
-			StateList.append({s['BMBC']:s['state']})
-	return HttpResponse(StateList)
-
+def isset(v):
+	try :
+		type (eval(v))
+	except :
+		return  0
+	else :
+		return  1
 def Name(request):
 	name = request.user.first_name
 	if name == "":
@@ -136,6 +132,79 @@ def modify2(request):
 		return redirect("/Member/Administrator/")
 	message = "系統錯誤"
 	return render(request,"/Member/index/",locals())
+
+def data_fresh(request):
+	Users = []
+	SessionStore.clear_expired()
+	sessions = Session.objects.all()
+	try:
+		for session in sessions:
+			s = session.get_decoded()
+			if s['BMBC']==request.session['BMBC']:		#取出所有BMBC相同的玩家
+				Users.append(s['_auth_user_id'])
+	except:
+		return render(request, "Member/General.html", locals())
+	Usernames = []
+	for user in Users:
+		un = User.objects.get(id=user).username
+		Usernames.append(un)
+	if len(Usernames)==4:
+		Usernames.append("遊戲開始")
+	return JsonResponse(Usernames,safe=False)
+
+@csrf_exempt
+def State(request):
+	BMBC = request.body.decode('utf-8')
+	sessions = Session.objects.all()
+	try:
+		for session in sessions:
+			s = session.get_decoded()
+			if  'bmbc' in s and BMBC==s['bmbc']:
+				data = s
+	except:
+		return HttpResponse("None")
+	return JsonResponse(s)		#回傳{'bmbc':bmbc ,'state':state}
+
+@login_required(login_url='/Member/login/')
+def Classic(request):
+	if request.method=="POST":
+		# 禁止短時間內多次創建同主機下的Table
+		SessionStore.clear_expired()
+		start = timezone.now()-timedelta(minutes=10)
+		end = timezone.now()
+		if not table.objects.filter(MachineID=request.session['BMBC'],time__range=[start,end]):
+				#設置主機狀態表
+				Ses = SessionStore()
+				Ses['bmbc'] = request.session['BMBC']		##閒置過久session可能過期
+				ROUND = rounds.objects.get(pk=request.POST['Game'])
+				Ses['from'] = request.POST['Game']
+				Ses['round'] = model_to_dict(ROUND, fields=['N','E','W','S'])
+				print(Ses['round'])
+				Ses['state'] = '2'
+				Ses.set_expiry(300)
+
+				#創建牌桌及座位
+				t= table.objects.create(MachineID=request.session['BMBC'],NS_TotalPoint=0,EW_TotalPoint=0,RoundNum=0)
+				t.save()
+				Nplayer = User.objects.get_by_natural_key(request.POST['N'])		#若輸入錯誤，將找不到該用戶
+				s = seat.objects.create(position='N',PlayerID=Nplayer,TableID=t)
+				s.save()
+				Eplayer = User.objects.get_by_natural_key(request.POST['E'])  # 若輸入錯誤，將找不到該用戶
+				s = seat.objects.create(position='E', PlayerID=Eplayer, TableID=t)
+				s.save()
+				Splayer = User.objects.get_by_natural_key(request.POST['S'])  # 若輸入錯誤，將找不到該用戶
+				s = seat.objects.create(position='S', PlayerID=Splayer, TableID=t)
+				s.save()
+				Wplayer = User.objects.get_by_natural_key(request.POST['W'])  # 若輸入錯誤，將找不到該用戶
+				s = seat.objects.create(position='W', PlayerID=Wplayer, TableID=t)
+				s.save()
+				Ses.create()
+				return redirect("/Member/index/")
+		Err = "禁止短時間內多次開局"
+		return render(request,"Member/index.html/",locals())
+	message = "錯誤方式訪問該頁面"
+	return redirect("/Member/login/")
+
 @login_required(login_url='/Member/login/')
 def playmode(request,pm='x'):
 	name = Name(request)
@@ -163,25 +232,32 @@ def playmode(request,pm='x'):
 				message = "該房間已客滿!!!"
 				return render(request,"Member/index,html",locals())
 			elif len(Usernames)==4:
-				request.session['state']=1			#發送到指定BMBC主機
 				# 禁止短時間內多次創建同主機下的Table
-				if	table.objects.filter(MachineID=request.session['BMBC'],time__range=[datetime.now()-timedelta(minutes=10),datetime.now()])==None:
+				if	not table.objects.filter(MachineID=request.session['BMBC'],time__range=[timezone.now()-timedelta(minutes=10),timezone.now()]):
 					t = table.objects.create(MachineID=request.session['BMBC'],NS_TotalPoint=0,EW_TotalPoint=0,RoundNum=0)
 					t.save()
-					s = seat.objects.create(position='N',PlayerID=Usernames[0],TableID=t)
+					N = User.objects.get_by_natural_key(Usernames[0])
+					s = seat.objects.create(position='N',PlayerID=N,TableID=t)
 					s.save()
-					s = seat.objects.create(position='E', PlayerID=Usernames[1], TableID=t)
+					E = User.objects.get_by_natural_key(Usernames[1])
+					s = seat.objects.create(position='E', PlayerID=E, TableID=t)
 					s.save()
-					s = seat.objects.create(position='W', PlayerID=Usernames[2], TableID=t)
+					S = User.objects.get_by_natural_key(Usernames[2])
+					s = seat.objects.create(position='W', PlayerID=S, TableID=t)
 					s.save()
-					s = seat.objects.create(position='S', PlayerID=Usernames[3], TableID=t)
+					W = User.objects.get_by_natural_key(Usernames[3])
+					s = seat.objects.create(position='S', PlayerID=W, TableID=t)
 					s.save()
-				message = "遊戲準備開始!!!"
+					S = SessionStore()
+					S['bmbc'] = request.session['BMBC']
+					S['state'] = 1	## 線上隨機模式
+					S.create()
+				else:
+					message = "短時間內創建過多次牌局"
 			return render(request,"Member/General.html",locals())
 	#if request.POST['BridgeMasterBaseCode'] =="1":
 	BMBC = request.POST['BridgeMasterBaseCode']
 	request.session['BMBC'] = BMBC
-	request.session['state'] = 1
 	return render(request, "Member/playmode.html", locals())
 #	return redirect("/Member/index/")
 

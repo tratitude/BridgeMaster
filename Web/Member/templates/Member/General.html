@@ -12,27 +12,37 @@
 {%endblock%}
 
 {%block content%}
-
+<script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript">
-      function myrefresh(){
-        window.location.reload();
-    }
-    setTimeout('myrefresh()',10000);
+    $(document).ready(function(){
+        function refresh(){
+            $.getJSON("/Member/data_fresh/", function (ret) {
+
+                $('#N').html(ret[0]);
+                $('#E').html(ret[1]||"");
+                $('#S').html(ret[2]||"");
+                $('#W').html(ret[3]||"");
+                $('#Msg').html(ret[4]||"");
+            })
+        }
+        setInterval(refresh, 3000)
+    })
     </script>
 <div style="position:absolute;right:330px;font-size:20px;">
     <h3>BMBC: {{request.session.BMBC}}</h3>
 </div>
-<div style="font-size:20px;position:absolute;left:400px;top:200px;">
+<div style="font-size:23px;position:absolute;left:400px;top:200px;">
 
     N:<br><br>
-    E:<br><br>
-    S:<br><br>
+    E: <br><br>
+    S: <br><br>
     W:
 </div>
 <div style="font-size:20px;position:absolute;left:430px;top:200px">
-    {%for username in Usernames%}
-        {{username}}<br><br>
-    {%endfor%}
+    <p id="N"></p><br>
+    <p id="E"></p><br>
+    <p id="S"></p><br>
+    <p id="W"></p>
    <!-- {%for BMBC in BMBCs%}
         {{BMBC}}<br>
         {%for key,value in BMBC.items%}
@@ -48,6 +58,7 @@
     W:<input type="text" name="playerW">
     S:<input type="text" name="playerS"></h3>-->
 </div>
+<p style="text-align:center;"id="Msg"></p>
     {%endblock%}
 
 {%block bottom%}
