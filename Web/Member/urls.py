@@ -18,7 +18,9 @@ urlpatterns = [
 	path('State/',views.State,name='State'),
 	path('Administrator/',views.Administrator,name = 'Administrator'),
 	path('Administrator/usermodify/<int:uid>/',views.usermodify,name='usermodify'),
-	path('Administrator/userdelete/<int:uid>/',views.userdelete,name='userdelete')
+	path('Administrator/userdelete/<int:uid>/',views.userdelete,name='userdelete'),
+	path('data_fresh/',views.data_fresh,name='data_fresh'),
+	path('Classic/',views.Classic,name='Classic'),
 #	path('GameStart/',views.GameStart,name = 'GameStart')
 #	path('modify_password/',views.modify_password),
 ]
