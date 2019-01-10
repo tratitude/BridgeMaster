@@ -21,19 +21,20 @@ try:
         Cards = []
         for key in round:
             Cards.append(round[key])
-        for Card in Cards:
-            Card.split()
+        for i in range(4):
+            Card = Cards[i].split('.')
+            Cards[i] = Card
         ##開始發牌##
         while  range(52):
             #出一張牌 上馬達
-            While US.Distance()>7:    #判斷超音波感測到停馬達
+            while US.Distance()>7:    #判斷超音波感測到停馬達
                 SW.Clockwise()
                 SW.Speed(100)
-            Sw.CounterClockWise()
+            SW.CounterClockWise()
             #啟動Barcode直到掃進來
             ThisCard = BB.Scan()
             #N/E/S/W
-            if 
+
             
 except:
     time.sleep(1)
