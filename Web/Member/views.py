@@ -179,7 +179,7 @@ def Classic(request):
 				ROUND = rounds.objects.get(pk=request.POST['Game'])
 				Ses['from'] = request.POST['Game']
 				Ses['round'] = model_to_dict(ROUND, fields=['N','E','W','S'])
-				print(Ses['round'])
+				#print(Ses['round'])
 				Ses['state'] = '2'
 				Ses.set_expiry(300)
 
@@ -250,7 +250,7 @@ def playmode(request,pm='x'):
 					s.save()
 					S = SessionStore()
 					S['bmbc'] = request.session['BMBC']
-					S['state'] = 1	## 線上隨機模式
+					S['state'] = '1'	## 線上隨機模式
 					S.create()
 				else:
 					message = "短時間內創建過多次牌局"

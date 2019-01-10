@@ -8,10 +8,11 @@ def MyConnect(BMBC):    #向Server請求資料，5秒請求1次直到狀態為�
             #print(r.content)
             if(r.content!=b'None'):
                 data = json.loads(r.content)
-                print(data)
-                if data['state']=='1':  ## 隨機模式
-                    return 1
-                elif data['state']=='2':    ##指定模式
-                    return data
+# return data = { 'bmbc': BMBC,
+#              'from': roundID,                                             --onlyforClassic
+#              'round': {'N': Ncard, 'E': Ecard, 'S': Scard, 'W': Wcard },  --onlyforClassic
+#               'state': GameMode
+#               }
+                return data
             time.sleep(5)
 #MyConnect('143')
