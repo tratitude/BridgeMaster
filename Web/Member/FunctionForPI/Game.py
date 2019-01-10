@@ -1,6 +1,11 @@
 from GetMyState import MyConnect
-
+import BarcodeScanner as BB
+import Servo_9G as  S9
+import ServoWheel as SW
+import UltraSonic as US
 import time
+
+
 
 BMBC = '5'   # BridgeMasterBaseCode
 try:
@@ -13,13 +18,22 @@ try:
     else:                       #mode.Classic
         #先將4家牌整理出來
         round = Data['round']
-        Card = []
+        Cards = []
         for key in round:
-            Card.append(round[key])
+            Cards.append(round[key])
+        for Card in Cards:
+            Card.split()
         ##開始發牌##
         while  range(52):
             #出一張牌 上馬達
-            #判斷超音波感測到停止 停馬達
+            While US.Distance()>7:    #判斷超音波感測到停馬達
+                SW.Clockwise()
+                SW.Speed(100)
+            Sw.CounterClockWise()
             #啟動Barcode直到掃進來
+            ThisCard = BB.Scan()
+            #N/E/S/W
+            if 
+            
 except:
     time.sleep(1)
