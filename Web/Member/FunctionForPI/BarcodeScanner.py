@@ -14,14 +14,15 @@ def Scan():
     GPIO.output(BB,True)
     time.sleep(1)
     GPIO.output(BB,False)
+    code = input()
     time.sleep(0.1)
+    return code
   
     
-def GetCode():
-    while True:
-        code = input("Code:")
-        print(code)
-        time.sleep(1)
+#def GetCode():
+ #   code = input("Code:")
+  #  print(code)
+   # time.sleep(1)
         
     
 #thread1 = threading.Thread(target = GetCode,args=())
