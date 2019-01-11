@@ -63,6 +63,7 @@ try:
 #            N
             if Player>1:    #移動到北東
                 #Stepper move(100)..
+
                 S9.Left()
                 S9.Balance()
             else:
