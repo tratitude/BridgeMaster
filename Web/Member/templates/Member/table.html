@@ -76,6 +76,23 @@ input[type=submit]:not(.a){
 
 
 {%block bottom%}
+    <div>
+            <ul class="pagination">
+            <li><a href="/Member/Table/?page=1">首頁</a></li>
+                 {% if tables.has_previous %}
+                        <li><a href="/Member/Table/?page={{ tables.previous_page_number }}">上一頁</a></li>
+                {% endif %}
+
+                 {% for num in tables.paginator.page_range %}
+                    <li><a href="/Member/Table/?page={{ num }}">{{ num }}</a></li>
+                 {% endfor %}
+
+                {% if tables.has_next %}
+                     <li><a href="/Member/Table/?page={{ tables.next_page_number }}">下一頁</a></li>
+                {% endif %}
+                <li><a href="/Member/Table/?page={{ tables.paginator.num_pages }}">尾頁</a></li>
+             </ul>
+        </div>
 <input type="submit" class="a">
 {%endblock%}
      </form>

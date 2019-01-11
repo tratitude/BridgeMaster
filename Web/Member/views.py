@@ -18,6 +18,7 @@ from datetime import datetime,date,timedelta
 from django.db.models	 import Q
 from distutils.util import strtobool
 from django.forms.models import model_to_dict
+from django.core.paginator import Paginator
 
 # Create your views here.
 # superuser admin/admin123
@@ -137,10 +138,13 @@ def data_fresh(request):
 	Users = []
 	SessionStore.clear_expired()
 	sessions = Session.objects.all()
+	#bmbc = request.session['BMBC']
+	#print(bmbc)
 	try:
 		for session in sessions:
 			s = session.get_decoded()
-			if s['BMBC']==request.session['BMBC']:		#取出所有BMBC相同的玩家
+			print(s)
+			if 'BMBC' in s and s['BMBC']==request.session['BMBC']:		#取出所有BMBC相同的玩家
 				Users.append(s['_auth_user_id'])
 	except:
 		return render(request, "Member/General.html", locals())
@@ -219,7 +223,7 @@ def playmode(request,pm='x'):
 			try:
 				for session in sessions:
 					s = session.get_decoded()
-					if s['BMBC']==request.session['BMBC']:		#取出所有BMBC相同的玩家
+					if 'BMBC' in s and s['BMBC']==request.session['BMBC']:		#取出所有BMBC相同的玩家
 						Users.append(s['_auth_user_id'])
 			except:
 				return render(request, "Member/General.html", locals())
@@ -292,6 +296,9 @@ def tableinformation(request,tid='x'):
 					friend = User.objects.get_by_natural_key(request.POST['Friend'])
 				except:
 					message = "查無該使用者"
+					paginator = Paginator(tables, 5)
+					page = request.GET.get('page', '1')
+					tables = paginator.page(page)
 					return render(request, "Member/table.html", locals())
 				seats = seat.objects.filter(PlayerID=friend)
 				tid = Q()
@@ -308,7 +315,13 @@ def tableinformation(request,tid='x'):
 					del request.session["ORDER"]
 				else:
 					request.session["ORDER"] = '1'
-			return render(request, "Member/table.html", locals())
+			paginator = Paginator(tables, 5)
+			page = request.GET.get('page', '1')
+			tables = paginator.page(page)
+			return render(request, "Member/table.html",locals())
+		paginator = Paginator(tables, 5)
+		page = request.GET.get('page','1')
+		tables = paginator.page(page)
 		return render(request,"Member/table.html",locals())
 	#編號.tid 牌桌之牌局資訊一覽
 	tables = tables.filter(pk=tid)
