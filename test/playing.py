@@ -1,5 +1,5 @@
 from lib import oled_config
-
+##return data [0,1,2,3]=[N,E,W,S],[4]=ns,[5]=ew
 def next_player(lead):
 
     if(lead%4==0):
@@ -71,8 +71,8 @@ def refresh():
     oled_config.partial_clsr(2,2)
     oled_config.partial_clsr(3,2)
 
-def showing(round,contract,vunerable):
-    pdata=[]
+def showing(round,contract,vunerable,declarer):
+    return_data=[]
     oled_config.clsr()
     oled_config.fline_print(0,0,"R")
     oled_config.fline_print(1,0,str(round+1))
@@ -103,15 +103,19 @@ def showing(round,contract,vunerable):
             iplist.append(ip)
             if(lead%4==0):               
                 oled_config.fline_print(4,1,str(ip))
+                N=N+ip+" "
                 next_player(lead+1)
             elif(lead%4==1):
                 oled_config.fline_print(7,2,str(ip))
+                E=E+ip+" "
                 next_player(lead+1)
             elif(lead%4==2):
                 oled_config.fline_print(5,3,str(ip))
+                S=S+ip+" "
                 next_player(lead+1)
             else:
                 oled_config.fline_print(2,2,str(ip))
+                W=W+ip+" "
                 next_player(lead+1)
             lead+=1
             count+=1
@@ -133,10 +137,15 @@ def showing(round,contract,vunerable):
                 oled_config.partial_clsr(12,3)
                 oled_config.fline_print(12,3,str(EW_trick))
             else:
-                oled_config.fline_print(13,3,str(EW_trick))
-        print(NS_trick)
-        print(EW_trick)
+                oled_config.fline_print(13,3,str(EW_trick))   
         rounds+=1
+    return_data.append(N)
+    return_data.append(E)
+    return_data.append(W)
+    return_data.append(S)
+    return_data.append(NS_trick)
+    return_data.append(EW_trick)
+    return return_data
 #showing(3,"2D")
 
 """
