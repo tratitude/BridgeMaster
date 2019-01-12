@@ -1,3 +1,2 @@
-from ddsTable import _ddsTable
-_ddsTable.ddsTable()
-#correct
+import _ddsTable
+_ddsTable.ddsTable("ddsDB.txt")

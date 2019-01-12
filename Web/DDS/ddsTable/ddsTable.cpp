@@ -21,7 +21,7 @@
 
 void FileTable(ddTableResults * table);
 
-void ddsTable()
+void ddsTable(char filename[100])
 {
   ddTableDealPBN tableDealPBN;
   ddTableResults table;
@@ -33,7 +33,7 @@ void ddsTable()
 #if defined(__linux) || defined(__APPLE__)
   SetMaxThreads(0);
 #endif
-  FILE *db = fopen("ddsDB.txt", "r");
+  FILE *db = fopen(filename, "r");
   fgets(tableDealPBN.cards, 70, db);
   fclose(db);
   printf("%s\n", tableDealPBN.cards);
