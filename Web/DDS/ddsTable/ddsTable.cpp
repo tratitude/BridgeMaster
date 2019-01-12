@@ -73,7 +73,7 @@ void FileTable(ddTableResults * table, char fileOut[100])
     fprintf(stderr,"fopen() failed in file %s at line # %d", __FILE__,__LINE__);
     exit(EXIT_FAILURE);
   }
-  fprintf(result, "%5d %5d %5d %5d\n",
+  fprintf(result, "%d %d %d %d ",
          table->resTable[4][0],
          table->resTable[4][2],
          table->resTable[4][1],
@@ -81,7 +81,7 @@ void FileTable(ddTableResults * table, char fileOut[100])
 
   for (int suit = 0; suit < DDS_SUITS; suit++)
   {
-    fprintf(result, "%5d %5d %5d %5d\n",
+    fprintf(result, "%d %d %d %d ",
            table->resTable[suit][0],
            table->resTable[suit][2],
            table->resTable[suit][1],

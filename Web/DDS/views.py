@@ -8,12 +8,25 @@ from django.contrib.auth.decorators import login_required
 from collections import defaultdict
 from django.http import HttpResponse
 from django.db.models	 import Q
-from .ddsTable import ddsTable       # function description is at bottom
+from .ddsTable import ddsTable       # ddsTable function description is at bottom
 
 # Create your views here.
 def dds(request):
+    round = rounds.objects.get(pk=5)
+    fo = open("Web/DDS/ddsTable/ddsDB.txt", "w")
+    fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
+    fo.close()
+
     ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.txt", "Web/DDS/ddsTable/ddsResult.txt")
-    render(request, "DDS/dds.html", locals())
+
+    fo = open("Web/DDS/ddsTable/ddsResult.txt", "r")
+    ddsR = fo.read(60)
+    fo.close()
+
+    round.dds_result = ddsR
+    round.save()
+    return redirect("/Member/index/")
+    #return render(request, "DDS/dds.html", locals())
 '''
 # ddsTable("input file", "output file")
 -----------------------
