@@ -3585,9 +3585,18 @@ SWIGINTERN PyObject *Deck_swigregister(PyObject *SWIGUNUSEDPARM(self), PyObject 
 
 SWIGINTERN PyObject *_wrap_ddsTable(PyObject *SWIGUNUSEDPARM(self), PyObject *args) {
   PyObject *resultobj = 0;
+  char *arg1 ;
+  char temp1[100] ;
+  int res1 ;
+  PyObject * obj0 = 0 ;
   
-  if (!PyArg_ParseTuple(args,(char *)":ddsTable")) SWIG_fail;
-  ddsTable();
+  if (!PyArg_ParseTuple(args,(char *)"O:ddsTable",&obj0)) SWIG_fail;
+  res1 = SWIG_AsCharArray(obj0, temp1, 100);
+  if (!SWIG_IsOK(res1)) {
+    SWIG_exception_fail(SWIG_ArgError(res1), "in method '" "ddsTable" "', argument " "1"" of type '" "char [100]""'");
+  }
+  arg1 = reinterpret_cast< char * >(temp1);
+  ddsTable(arg1);
   resultobj = SWIG_Py_Void();
   return resultobj;
 fail:
