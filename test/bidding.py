@@ -1,7 +1,7 @@
-import oled_config
-import Keypad
+from lib import oled_config
+from lib import Keypad
 import time
-
+##return data [0]=bid [1]=contract(pass=0) [2]=declarer
 def trans(x):
     position = {
         '0':'N',
@@ -64,6 +64,8 @@ def bidding(first):
             elif(current>=(4+first) and p==3):
                 r_data.append(data)
                 r_data.append(contract)
+                declarer=declarer%4
+                r_data.append(declarer)
                 return r_data
             current+=1
             continue
