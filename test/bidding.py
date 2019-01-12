@@ -68,15 +68,26 @@ def bidding(first):
             current+=1
             continue
         if read1=='X':
-            if(current%4==0):
-                str1+=" X "
-            elif(current%4==1):
-                str2+=" X "
-            elif(current%4==2):
-                str3+=" X "
+            if contract[len(contract)-1]=='X':
+                if(current%4==0):
+                    str1+=" XX "
+                elif(current%4==1):
+                    str2+=" XX "
+                elif(current%4==2):
+                    str3+=" XX "
+                else:
+                    str4+=" XX "
+                data=data+','+'XX'
             else:
-                str4+=" X "
-            data=data+','+'X'
+                if(current%4==0):
+                    str1+=" X "
+                elif(current%4==1):
+                    str2+=" X "
+                elif(current%4==2):
+                    str3+=" X "
+                else:
+                    str4+=" X "
+                data=data+','+'X'
             if current>declarer:
                 contract+='X'
             refresh(str1,str2,str3,str4)
@@ -103,4 +114,4 @@ def bidding(first):
         current+=1
         refresh(str1,str2,str3,str4)
         
-#print(bidding(4))
+print(bidding(4))
