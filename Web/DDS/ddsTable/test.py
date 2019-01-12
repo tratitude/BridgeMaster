@@ -1,3 +1,2 @@
 import _ddsTable
-_ddsTable.ddsTable("ddsDB.txt")
-#correct
+_ddsTable.ddsTable("ddsDB.txt", "ddsResult.txt")

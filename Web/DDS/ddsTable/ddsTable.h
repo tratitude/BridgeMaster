@@ -4,4 +4,4 @@ typedef struct{
     char d[13]; // diamond
     char c[13]; // club
 }Deck;
-void ddsTable(char filename[100]);
+void ddsTable(char fileIn[100], char fileOut[100]);
