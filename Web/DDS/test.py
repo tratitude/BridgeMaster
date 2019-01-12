@@ -1,3 +1,3 @@
 from ddsTable import ddsTable
-ddsTable.ddsTable("ddsDB.txt")
+ddsTable.ddsTable("ddsTable/ddsDB.txt")
 #correct
