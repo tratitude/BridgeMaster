@@ -12,5 +12,5 @@ from .ddsTable import ddsTable
 
 # Create your views here.
 def dds(request):
-    ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.txt")
+    ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.txt", "Web/DDS/ddsTable/ddsResult.txt")
     render(request, "DDS/dds.html", locals())

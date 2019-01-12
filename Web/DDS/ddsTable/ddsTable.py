@@ -130,8 +130,8 @@ Deck_swigregister = _ddsTable.Deck_swigregister
 Deck_swigregister(Deck)
 
 
-def ddsTable(filename: 'char [100]') -> "void":
-    return _ddsTable.ddsTable(filename)
+def ddsTable(fileIn: 'char [100]', fileOut: 'char [100]') -> "void":
+    return _ddsTable.ddsTable(fileIn, fileOut)
 ddsTable = _ddsTable.ddsTable
 # This file is compatible with both classic and new-style classes.
 

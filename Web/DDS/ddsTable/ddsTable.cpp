@@ -19,9 +19,9 @@
 #include "hands.h"
 #include "ddsTable.h"
 
-void FileTable(ddTableResults * table);
+void FileTable(ddTableResults * table, char fileOut[100]);
 
-void ddsTable(char filename[100])
+void ddsTable(char fileIn[100], char fileOut[100])
 {
   ddTableDealPBN tableDealPBN;
   ddTableResults table;
@@ -33,7 +33,11 @@ void ddsTable(char filename[100])
 #if defined(__linux) || defined(__APPLE__)
   SetMaxThreads(0);
 #endif
-  FILE *db = fopen(filename, "r");
+  FILE *db = fopen(fileIn, "r");
+  if(!db) {
+    fprintf(stderr,"fopen() failed in file %s at line # %d", __FILE__,__LINE__);
+    exit(EXIT_FAILURE);
+  }
   fgets(tableDealPBN.cards, 70, db);
   fclose(db);
   printf("%s\n", tableDealPBN.cards);
@@ -59,12 +63,16 @@ void ddsTable(char filename[100])
     //PrintPBNHand(line, tableDealPBN.cards);
 
     PrintTable(&table);
-    FileTable(&table);
+    FileTable(&table, fileOut);
   }
 }
-void FileTable(ddTableResults * table)
+void FileTable(ddTableResults * table, char fileOut[100])
 {
-  FILE *result = fopen("ddsResult.txt", "w");
+  FILE *result = fopen(fileOut, "w");
+  if(!result) {
+    fprintf(stderr,"fopen() failed in file %s at line # %d", __FILE__,__LINE__);
+    exit(EXIT_FAILURE);
+  }
   fprintf(result, "%5d %5d %5d %5d\n",
          table->resTable[4][0],
          table->resTable[4][2],
