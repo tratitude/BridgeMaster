@@ -86,7 +86,7 @@ def sign_up(request):
 	return render(request, "Member/sign_up.html", locals())
 
 def logout(request):
-	auth.logout(request)
+	auth.logout(request)   # logout error
 	message="登出成功"
 	return redirect('/Member/login/')
 
