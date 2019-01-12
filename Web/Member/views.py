@@ -87,6 +87,9 @@ def sign_up(request):
 
 def logout(request):   # logout error
 	auth.logout(request)
+
+def logout(request):
+	auth.logout(request)   # logout error
 	message="登出成功"
 	return redirect('/Member/login/')
 
