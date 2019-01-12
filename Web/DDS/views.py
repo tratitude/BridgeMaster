@@ -8,7 +8,9 @@ from django.contrib.auth.decorators import login_required
 from collections import defaultdict
 from django.http import HttpResponse
 from django.db.models	 import Q
+from .ddsTable import ddsTable
 
 # Create your views here.
 def dds(request):
+    ddsTable.ddsTable()
     render(request, "DDS/dds.html", locals())
