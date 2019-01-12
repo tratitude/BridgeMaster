@@ -109,7 +109,7 @@ WEBSOCKET_ACCEPT_ALL = True
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Asia/Taipei'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
