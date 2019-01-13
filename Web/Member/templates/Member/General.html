@@ -12,6 +12,39 @@
 {%endblock%}
 
 {%block content%}
+<style>
+    .bmbc{
+        position:absolute;
+        right:330px;
+        font-size:20px;
+    }
+    .position{
+        font-size:23px;
+        position:absolute;
+        left:400px;
+        top:200px;
+    }
+    .player{
+        font-size:20px;
+        position:absolute;
+        left:430px;
+        top:200px
+    }
+    @media only screen and (max-width: 1000px){
+        .player{
+            font-size:50px;
+            left:300px;
+         }
+        .position{
+            left:200px;
+            font-size:50px;
+        }
+        .bmbc{
+            font-size:50px;
+            right:150px;
+        }
+    }
+</style>
 <script src="http://apps.bdimg.com/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function(){
@@ -28,17 +61,17 @@
         setInterval(refresh, 3000)
     })
     </script>
-<div style="position:absolute;right:330px;font-size:20px;">
-    <h3>BMBC: {{request.session.BMBC}}</h3>
+<div class="bmbc">
+    BMBC: {{request.session.BMBC}}
 </div>
-<div style="font-size:23px;position:absolute;left:400px;top:200px;">
+<div class="position">
 
     N:<br><br>
     E: <br><br>
     S: <br><br>
     W:
 </div>
-<div style="font-size:20px;position:absolute;left:430px;top:200px">
+<div class=player>
     <p id="N"></p><br>
     <p id="E"></p><br>
     <p id="S"></p><br>
