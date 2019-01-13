@@ -86,7 +86,7 @@ def sign_up(request):
 	return render(request, "Member/sign_up.html", locals())
 
 def logout(request):
-	auth.logout(request)
+	auth.logout(request)   # logout error
 	message="登出成功"
 	return redirect('/Member/login/')
 
@@ -159,15 +159,19 @@ def data_fresh(request):
 @csrf_exempt
 def State(request):
 	BMBC = request.body.decode('utf-8')
+	print(BMBC)
+	data = 0
 	sessions = Session.objects.all()
 	try:
 		for session in sessions:
 			s = session.get_decoded()
 			if  'bmbc' in s and BMBC==s['bmbc']:
 				data = s
+		if data==0:
+			return JsonResponse({'state':None})
+		return JsonResponse(data)  # 回傳{'bmbc':bmbc ,'state':state}
 	except:
-		return HttpResponse("None")
-	return JsonResponse(s)		#回傳{'bmbc':bmbc ,'state':state}
+		return JsonResponse({'state':None})
 
 @login_required(login_url='/Member/login/')
 def Classic(request):
@@ -190,6 +194,7 @@ def Classic(request):
 				#創建牌桌及座位
 				t= table.objects.create(MachineID=request.session['BMBC'],NS_TotalPoint=0,EW_TotalPoint=0,RoundNum=0)
 				t.save()
+				Ses['T_id'] = t.pk
 				Nplayer = User.objects.get_by_natural_key(request.POST['N'])		#若輸入錯誤，將找不到該用戶
 				s = seat.objects.create(position='N',PlayerID=Nplayer,TableID=t)
 				s.save()
@@ -255,6 +260,7 @@ def playmode(request,pm='x'):
 					S = SessionStore()
 					S['bmbc'] = request.session['BMBC']
 					S['state'] = '1'	## 線上隨機模式
+					S['T_id'] = t.pk
 					S.create()
 				else:
 					message = "短時間內創建過多次牌局"
