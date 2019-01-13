@@ -7,9 +7,6 @@ from lib import method
 
 import bidding
 import mode_select
-import playing
-
-import json
 import time
 BMBC='999'
 game_mode=True #true=classic false=general

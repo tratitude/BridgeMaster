@@ -9,7 +9,17 @@ class table(models.Model):
     EW_TotalPoint = models.DecimalField(max_digits = 5,decimal_places=0)
     RoundNum = models.DecimalField(max_digits = 10,decimal_places=0)     #總共進行幾個ROUND Eg. 1/4/16
     MachineID = models.DecimalField(max_digits = 10,decimal_places=0)
-    
+    dds_result = models.CharField(max_length=60, null=True)  # 分析過的存進資料庫
+    '''
+    dds_result format: string{10 11 12 13 20 ... 53}
+    # Use space to seperate each 2 digits numner
+        N   E   S   W
+    NT 10  11  12  13
+    S  20  21  22  23
+    H  30  31  32  33
+    D  40  41  42  43
+    C  50  51  52  53
+    '''
     def __str__(self):
         return str(self.pk)      #回傳TableID
 class tableAdmin(admin.ModelAdmin):
