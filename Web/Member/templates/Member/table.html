@@ -29,17 +29,40 @@ input[type=submit]:not(.a){
   border: solid #1f628d 5px;
   text-decoration: none;
 }
+.find{
+
+}
+.filter{
+     position:absolute;
+     top:300px;
+     left:485px;
+}
+@media only screen and (max-width: 1000px){
+    .filter{
+        top:20%;
+        left:7%;
+        font-size:28px;
+        border="2";
+        cellpadding="1";
+        cellspacing="0";
+        align="center";
+        valign="middle;
+    }
+    .find{
+        font-size:20px;
+    }
+}
 </style>
 <form method="post" action="/Member/Table/">
-<div style="">
-    查主機:<input type="text" name="BMBC">
-    找朋友:<input type="text" name="Friend">
+<div class="find">
+    查主機:<input type="text" name="BMBC"><br>
+    找朋友:<input type="text" name="Friend"><br>
     EW_Point範圍:<input type="text" name="EW_Point"><br>
 
 
 </div>
-<div style="position:absolute;top:220px;left:485px">
-    <table style="text-align:center;" border="2" align="center" >
+
+    <table class="filter">
             {% csrf_token %}
             {{message}}
         <tr><th>MachineID<input type="submit" name = 'order'value="MachineID"></th>
@@ -67,7 +90,7 @@ input[type=submit]:not(.a){
         </tr>
         {%endfor%}
     </table>
-</div>
+
 
 {%endblock%}
 
@@ -76,7 +99,7 @@ input[type=submit]:not(.a){
 
 
 {%block bottom%}
-    <div>
+
             <ul class="pagination">
             <li><a href="/Member/Table/?page=1">首頁</a></li>
                  {% if tables.has_previous %}
@@ -92,7 +115,6 @@ input[type=submit]:not(.a){
                 {% endif %}
                 <li><a href="/Member/Table/?page={{ tables.paginator.num_pages }}">尾頁</a></li>
              </ul>
-        </div>
 <input type="submit" class="a">
 {%endblock%}
      </form>

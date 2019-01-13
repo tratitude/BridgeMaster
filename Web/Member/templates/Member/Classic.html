@@ -11,14 +11,30 @@
 {%endblock%}
 
 {%block content%}
-    <h3>Please Select a Classic Game</h3>
+<style>
+.data{
+
+}
+@media only screen and (max-width: 1000px){
+    .classic{
+        font-size:50px;
+    }
+    .data{
+        font-size:20px;
+    }
+}
+</style>
+    <div class="classic">
+    Please Select a Classic Game
     <form method="post" action="/Member/Classic/">
         {% csrf_token %}
+        <div class="data">
         <select name="Game">
             {%for CM in ClassicGames%}
                 <option value={{CM.pk}}>{{CM.Event}}{{CM.Site}}{{CM.Date}},{{CM.vulnerable}}</option>
             {%endfor%}
         </select><br>
+            </div>
         <input type="text" name="N" placeholder="N">
         <input type="text" name="E" placeholder="E">
         <input type="text" name="S" placeholder="S">
@@ -27,6 +43,7 @@
         <input type="submit" name="button" id="button" value="送出">
         <input type="reset" name="button2" id="button2" value="重設">
     </form>
+    </div>
 {%endblock%}
 
 {%block bottom%}
