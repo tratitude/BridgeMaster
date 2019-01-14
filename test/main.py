@@ -1,10 +1,10 @@
 ##method function
-from lib import oled_config
-from lib import GetMyState
-from lib import General
-from lib import RoundAdd
-from lib import vun
-from lib import method
+import oled_config
+import GetMyState
+import General
+import RoundAdd
+import vun
+import method
 ##main proc
 import bidding
 import mode_select
@@ -30,12 +30,17 @@ while True:
         oled_config.fline_print(0,0,"Connecting")
         online=GetMyState.MyConnect(BMBC)
         if(("#") and online['state']=='0'): #time out or interrupt ->general
-            time.sleep(1)#General.general()
+            General.general()
         else:
             time.sleep(1)     ##Game()
     else:
+<<<<<<< HEAD
         time.sleep(1)
         #General.general()
+=======
+       # General.general()
+        time.sleep(1)     ##Game()
+>>>>>>> pull and commit test
     ##################################################################################  bidding
     bid_data=bidding.bidding(round%4)  ##先喊數字
     if(bid_data[1]==0):          ##bid data[0]=all info at bidding [1]=contract [1]=0 all pass [2]=declarer

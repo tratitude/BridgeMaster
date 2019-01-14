@@ -11,8 +11,9 @@ GPIO.setup(en,GPIO.OUT)
 GPIO.setup(in1,GPIO.OUT)
 GPIO.setup(in2,GPIO.OUT)
 
+
 pwm = GPIO.PWM(en,500)
-pwm.start(100)
+pwm.start(0)
 
 def Clockwise():
     GPIO.output(in1,False)
@@ -25,4 +26,4 @@ def Speed(s):
    pwm.ChangeDutyCycle(s)
    
 #Clockwise()
-#Speed(0)
+Speed(0)

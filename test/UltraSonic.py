@@ -31,10 +31,10 @@ def Distance():
 
     
 #try:
-#    while True:
- #       dist = distance()
-  #      print("Measured Distance = %.1f cm" %dist)
-   #     time.sleep(1)
+ #   while True:
+  #      dist = Distance()
+   #     print("Measured Distance = %.1f cm" %dist)
+    #    time.sleep(1)
 
 #except KeyboardInterrupt:
  #   print("Measurement stop by user")

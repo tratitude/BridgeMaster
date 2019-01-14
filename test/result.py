@@ -1,5 +1,5 @@
-from lib import oled_config
-from lib import Keypad
+import oled_config
+import Keypad
 import time
 def print_result(round,total_score,new_score):
     oled_config.fline_print(3,0,"Round:")

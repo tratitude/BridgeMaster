@@ -1,5 +1,5 @@
-from lib import oled_config
-from lib import Keypad
+import oled_config
+import Keypad
 import time
 ##return data [0]=bid [1]=contract(pass=0) [2]=declarer
 <<<<<<< HEAD
