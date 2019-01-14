@@ -12,14 +12,14 @@ from .ddsTable import ddsTable       # ddsTable function description is at botto
 
 # Create your views here.
 def dds(request):
-    round = rounds.objects.get(pk=5)
-    fo = open("Web/DDS/ddsTable/ddsDB.txt", "w")
+    round = rounds.objects.get(pk=6982)
+    fo = open("Web/DDS/ddsTable/ddsDB.dds", "w")
     fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
     fo.close()
 
-    ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.txt", "Web/DDS/ddsTable/ddsResult.txt")
+    ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.dds", "Web/DDS/ddsTable/ddsResult.dds")
 
-    fo = open("Web/DDS/ddsTable/ddsResult.txt", "r")
+    fo = open("Web/DDS/ddsTable/ddsResult.dds", "r")
     ddsR = fo.read(60)
     fo.close()
 
