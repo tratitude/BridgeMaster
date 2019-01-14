@@ -1,4 +1,5 @@
-import score
+import Score
+
 def get_leader(round):
     if(round%4==0):
         return 'N'
@@ -21,13 +22,13 @@ def get_score(declarer,vunerable,ns_trick,contract):
         double=1
     
     if(vunerable=='None'):
-        return score.score(declarer,0,0,ns_trick,contract,double)
+        return Score.score(declarer,0,0,ns_trick,contract,double)
     elif(vunerable=='NS'):
-        return score.score(declarer,1,0,ns_trick,contract,double)
+        return Score.score(declarer,1,0,ns_trick,contract,double)
     elif(vunerable=="EW"):
-        return score.score(declarer,0,1,ns_trick,contract,double)
+        return Score.score(declarer,0,1,ns_trick,contract,double)
     else:
-        return score.score(declarer,1,1,ns_trick,contract,double)
+        return Score.score(declarer,1,1,ns_trick,contract,double)
 
 def get_trick(play_data,declarer):
     if(declarer==0 or declarer==2):

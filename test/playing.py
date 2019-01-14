@@ -1,4 +1,6 @@
 from lib import oled_config
+import BarcodeScanner as BB
+from lib import Game
 ##return data [0,1,2,3]=[N,E,W,S],[4]=ns,[5]=ew
 def next_player(lead):
 
@@ -99,7 +101,13 @@ def showing(round,contract,vunerable,declarer):
         refresh()
         next_player(lead)
         while(count<4): ##get cards and print →
-            ip=input()
+            #scan barcode and transform to (suit,point)
+            ThisCard = BB.Scan()
+            suit = ThisCard[4]
+            point = ThisCard[3]
+            point = Game.CardTransfer(point)
+            ip=suit+point
+            #
             iplist.append(ip)
             if(lead%4==0):               
                 oled_config.fline_print(4,1,str(ip))
