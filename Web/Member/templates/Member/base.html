@@ -5,12 +5,58 @@
      <script src="https://code.jquery.com/jquery.js"></script>
 <style>
 .center {
-  text-align: center;
-  margin: auto;
-  width: 60%;
-  border: 3px solid #73AD21;
-  padding: 50px;
-  white-space:nowrap;
+      text-align: center;
+      margin: auto;
+      width: 60%;
+      border: 3px solid #73AD21;
+      padding: 50px;
+      white-space:nowrap;
+}
+.content{
+    text-align:center;
+}
+.bottom{
+    margin:auto;
+    padding:250px;
+    text-align:center;
+    float:bottom;
+}
+.right{
+    position:absolute;
+    top:200px;
+    right:300px;
+}
+.user{
+    font-size:22px;
+    float:right;
+}
+@media only screen and (max-width: 1000px){
+    .center {
+      font-size: 300px;
+      text-align: center;
+      margin: auto;
+      width: 100%;
+      border: 3px solid #73AD21;
+      padding: 50px;
+      white-space:nowrap;
+      }
+      .content{
+        text-align:center;
+        font-size: 50px;
+        height:60%;
+       }
+      .bottom{
+        font-size: 50px;
+      }
+      .right{
+        position:absolute;
+        top:400px;
+        right:10px;
+        font-size:50px
+      }
+      .user{
+        font-size:30px;
+      }
 }
 </style>
 </head>
@@ -18,24 +64,24 @@
 <div class = "center">
     <a href="/Member/index/"><div style="font-size:50px;">{%block title%}{%endblock%}</div></a>
 
-    <div style="font-size:22px;float:right;">
+    <div class = user>
             {%block user%}
             {%endblock%}
 
     </div>
 </div>
 
-<div style = "text-align:center">
+<div class = "content">
     {%block content%}
     {%endblock%}
 </div>
- <div style="position:absolute;top:200px;right:300px;">
+ <div class = right>
     {%block right%}
      {%endblock%}
  </div>
 </body>
 <body>
-<div style="margin:auto;padding:250px;text-align:center;float:bottom;">
+<div class = bottom>
     {%block bottom%}
     {%endblock%}
     <input type="button" onclick=location.href="javascript:history.go(-1);" value="返回">

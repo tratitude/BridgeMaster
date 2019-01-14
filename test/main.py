@@ -34,8 +34,7 @@ while True:
         else:
             time.sleep(1)     ##Game()
     else:
-        time.sleep(1)
-        #General.general()
+        time.sleep(1)     ##Game()
     ##################################################################################  bidding
     bid_data=bidding.bidding(round%4)  ##先喊數字
     if(bid_data[1]==0):          ##bid data[0]=all info at bidding [1]=contract [1]=0 all pass [2]=declarer
