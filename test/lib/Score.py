@@ -12,6 +12,7 @@ def Basic(v,dbl):   #計算牌磴分數
 
 def score(declarer,ns_vulnerable,ew_vulnerable,ns_trick,contract,dbl):
 #先判斷攻方為?
+    declarer=int(declarer)
     if declarer%2==0:          # NS為攻方
         trick = ns_trick
         vulner = ns_vulnerable
@@ -97,6 +98,6 @@ def score(declarer,ns_vulnerable,ew_vulnerable,ns_trick,contract,dbl):
     return NS_Score
 
 
-Score = score(0,True,False,7,'4D',2)
-print(Score)
+#Score = score(0,True,False,7,'4D',2)
+#print(Score)
 

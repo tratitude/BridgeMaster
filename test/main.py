@@ -1,13 +1,19 @@
+##method function
 from lib import oled_config
 from lib import GetMyState
 from lib import General
 from lib import RoundAdd
 from lib import vun
 from lib import method
-
+##main proc
 import bidding
 import mode_select
+import playing
+import result
+##python lib
+import json
 import time
+total_score=0  #NS
 BMBC='999'
 game_mode=True #true=classic false=general
 round=0
@@ -39,9 +45,11 @@ while True:
     play_data=playing.showing(round,bid_data[1],vunerable,bid_data[2])
     ################################################################################    push data to DB
     leader=method.get_leader(round) 
-    score=method.get_score(bid_data[2],vunerable,play_data[4],bid_data[1])
+    new_score=method.get_score(bid_data[2],vunerable,play_data[4],bid_data[1]) #NS
+    total_score+=new_score
     trick=method.get_trick(play_data,bid_data[2])
-
     RoundAdd.AddRound(online['T_id'],bid_data[0],leader,bid_data[1],play_data[0]
-    ,play_data[1],play_data[2],play_data[3],vunerable,trick,bid_data[2],round,score)
+    ,play_data[1],play_data[2],play_data[3],vunerable,trick,bid_data[2],round,total_score)
+    #################################################################################### print result
+    result.print_result(round,total_score,new_score)
     round+=1

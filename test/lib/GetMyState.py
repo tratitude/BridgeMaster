@@ -2,7 +2,6 @@ import json
 import requests
 import time
 import oled_config
-import oled_config
 import Keypad
 
 def refresh(str1,str2,str3,str4):
