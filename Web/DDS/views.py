@@ -1,3 +1,4 @@
+
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.template.context_processors import csrf
@@ -11,22 +12,32 @@ from django.db.models	 import Q
 from .ddsTable import ddsTable       # ddsTable function description is at bottom
 
 # Create your views here.
-def dds(request):
-    round = rounds.objects.get(pk=6982)
-    fo = open("Web/DDS/ddsTable/ddsDB.dds", "w")
-    fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
-    fo.close()
+def dds(request, R_id):
+    round = rounds.objects.get(pk=R_id)
+    if round is not None:
+        if round.dds_result is None:
+            fo = open("Web/DDS/ddsTable/ddsDB.dds", "w")
+            fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
+            fo.close()
+            ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.dds", "Web/DDS/ddsTable/ddsResult.dds")
+            fo = open("Web/DDS/ddsTable/ddsResult.dds", "r")
+            ddsR = fo.read(60)
+            fo.close()
+            round.dds_result = ddsR
+            round.save()
 
-    ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.dds", "Web/DDS/ddsTable/ddsResult.dds")
-
-    fo = open("Web/DDS/ddsTable/ddsResult.dds", "r")
-    ddsR = fo.read(60)
-    fo.close()
-
-    round.dds_result = ddsR
-    round.save()
-    return redirect("/Member/index/")
-    #return render(request, "DDS/dds.html", locals())
+        N = card(round.N)
+        E = card(round.E)
+        S = card(round.S)
+        W = card(round.W)
+    return render(request, "DDS/dds.html", locals())
+class card():
+    def __init__(self, str):
+        round = str.split('.')
+        self.Spade = round[0]
+        self.Hart = round[1]
+        self.Diamond = round[2]
+        self.Club = round[3]
 '''
 # ddsTable("input file", "output file")
 -----------------------

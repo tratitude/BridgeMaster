@@ -31,6 +31,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'DDS',
     'Member.apps.MemberConfig',
     'django.contrib.admin',
     'django.contrib.auth',

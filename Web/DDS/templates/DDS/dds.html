@@ -1,1 +1,87 @@
 {%extends 'Member/base.html'%}
+{% load staticfiles %}
+{%block title%}
+    Game Detail
+{%endblock%}
+
+{%block user%}
+        {{name}}
+        <input type="button" value="修改資料" onclick="location='/Member/modify/'">
+        <input type="button" value="登出" onclick="location='/Member/logout/'">
+{%endblock%}
+
+{%block content%}
+<div style="position:absolute;left:400px;font-size:25px;text-align:justify;">
+    <!-- complete deal -->
+    <table class="doc" cellspacing="1" cellpadding="3">
+    <tr><td width="130">&nbsp;East / None</td>
+        <td  width="120"></td>
+        <td width="130"></td></tr>
+    <tr><td></td>
+        <td>North</td>
+        <td></td></tr>
+    <tr><td></td>
+        <td><img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/>{%for card in N.Spade%}&nbsp;{{card}}{%endfor%}</td>
+        <td></td></tr>
+    <tr><td></td>
+        <td><img src="{% static  "DDS/img/0h.gif" %}" alt="h" width="13" height="11"/>{%for card in N.Hart%}&nbsp;{{card}}{%endfor%}</td>
+        <td></td></tr>
+    <tr><td></td>
+        <td><img src="{% static  "DDS/img/0d.gif" %}" alt="d" width="13" height="11"/>{%for card in N.Diamond%}&nbsp;{{card}}{%endfor%}</td>
+        <td></td></tr>
+    <tr><td></td>
+        <td><img src="{% static  "DDS/img/0c.gif" %}" alt="c" width="13" height="11"/>{%for card in N.Club%}&nbsp;{{card}}{%endfor%}</td>
+        <td></td></tr>
+    <tr><td>West</td>
+        <td rowspan="5" align="left"><img src="{% static  "DDS/img/t00x100e.gif" %}" class="blok" width="100" height="100" alt="I" /></td>
+        <td>East</td></tr>
+    <tr><td><img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/>{%for card in W.Spade%}&nbsp;{{card}}{%endfor%}</td>
+        <td><img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/>{%for card in E.Spade%}&nbsp;{{card}}{%endfor%}</td></tr>
+    <tr><td><img src="{% static  "DDS/img/0h.gif" %}" alt="h" width="13" height="11"/>{%for card in W.Hart%}&nbsp;{{card}}{%endfor%}</td>
+        <td><img src="{% static  "DDS/img/0h.gif" %}" alt="h" width="13" height="11"/>{%for card in E.Hart%}&nbsp;{{card}}{%endfor%}</td></tr>
+    <tr><td><img src="{% static  "DDS/img/0d.gif" %}" alt="d" width="13" height="11"/>{%for card in W.Diamond%}&nbsp;{{card}}{%endfor%}</td>
+        <td><img src="{% static  "DDS/img/0d.gif" %}" alt="d" width="13" height="11"/>{%for card in E.Diamond%}&nbsp;{{card}}{%endfor%}</td></tr>
+    <tr><td><img src="{% static  "DDS/img/0c.gif" %}" alt="c" width="13" height="11"/>{%for card in W.Club%}&nbsp;{{card}}{%endfor%}</td>
+        <td><img src="{% static  "DDS/img/0c.gif" %}" alt="c" width="13" height="11"/>{%for card in E.Club%}&nbsp;{{card}}{%endfor%}</td></tr>
+    <tr><td></td>
+        <td>South</td>
+        <td></td></tr>
+    <tr><td></td>
+        <td><img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/>{%for card in S.Spade%}&nbsp;{{card}}{%endfor%}</td>
+        <td></td></tr>
+    <tr><td></td>
+        <td><img src="{% static  "DDS/img/0h.gif" %}" alt="h" width="13" height="11"/>{%for card in S.Hart%}&nbsp;{{card}}{%endfor%}</td>
+        <td></td></tr>
+    <tr><td></td>
+        <td><img src="{% static  "DDS/img/0d.gif" %}" alt="d" width="13" height="11"/>{%for card in S.Diamond%}&nbsp;{{card}}{%endfor%}</td>
+        <td></td></tr>
+    <tr><td></td>
+        <td><img src="{% static  "DDS/img/0c.gif" %}" alt="c" width="13" height="11"/>{%for card in S.Club%}&nbsp;{{card}}{%endfor%}</td>
+        <td></td></tr></table>
+    <!-- end complete deal -->
+<p></p>
+    <table>
+        <tr><td width='60'><i>West</i></td>
+            <td width='60'><i>North</i></td>
+            <td width='60'><i>East</i></td>
+            <td width='60'><i>South</i></td>
+        </tr>
+        <tr><td class="bla">2<img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/></td>
+            <td class="bla">5<img src="{% static  "DDS/img/0h.gif" %}" alt="h" width="13" height="11"/></td>
+            <td class="bla">6<img src="{% static  "DDS/img/0d.gif" %}" alt="d" width="13" height="11"/></td>
+            <td class="bla">Pass</td>
+        </tr>
+        <tr><td class="bla">Pass</td>
+            <td class="bla">Pass</td>
+        </tr>
+    </table>
+</div>
+{%endblock%}
+
+{%block right%}
+
+{%endblock%}
+
+
+{%block bottom%}
+{%endblock%}
