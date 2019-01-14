@@ -1,7 +1,31 @@
-from lib import oled_config
+import oled_config
 import BarcodeScanner as BB
-from lib import Game
+import Game
+import UltraSonic as US
+from pynput import keyboard
+import threading
+import Servo_9G as S9
+import time
+
+press_c = 0
+press_s = ""
+
 ##return data [0,1,2,3]=[N,E,W,S],[4]=ns,[5]=ew
+def on_press(a):
+    #try:
+    global press_c
+    global press_s
+    if a!=keyboard.Key.shift and a!=keyboard.Key.enter :
+        #print('{0}'.format(a))
+        press_c = press_c+1
+        press_s = press_s+str(a.char)
+        if press_c==4:
+            return False
+    
+def on_release(key):
+    #print('{0}'.format(key))
+    time.sleep(0.1)
+    
 def next_player(lead):
 
     if(lead%4==0):
@@ -95,6 +119,8 @@ def showing(round,contract,vunerable,declarer):
     EW_trick=0
     rounds=0        #count to 13
     lead=round%4    #0=N 1=e 2=s 3=w
+    
+    retry = 0
     while rounds<13:
         count=0
         iplist=[]
@@ -102,9 +128,42 @@ def showing(round,contract,vunerable,declarer):
         next_player(lead)
         while(count<4): ##get cards and print →
             #scan barcode and transform to (suit,point)
-            ThisCard = BB.Scan()
-            suit = ThisCard[4]
-            point = ThisCard[3]
+            global press_c
+            global press_s
+            press_c = 0
+            press_s = ""
+            while US.Distance()>8:     
+                time.sleep(0.2)
+            with keyboard.Listener(on_press=on_press,on_release=on_release) as listener:
+                BB.Scan()
+                #time.sleep(1)
+            listener.join()
+            if press_s=="":
+                retry = retry + 1
+                if retry == 3:
+                    retry = 0
+                    S9.Right()
+                    time.sleep(0.3)
+                    S9.Balance()
+                continue
+            S9.Left()
+            time.sleep(0.3)
+            S9.Balance()
+            retry = 0
+            
+            
+            ThisCard = press_s
+            print(ThisCard)
+            t_suit = ThisCard[3]
+            if(t_suit==3):
+                suit='D'
+            elif(t_suit==1):
+                suit='S'
+            elif(t_suit==4):
+                suit='C'
+            else:
+                suit='H'
+            point = ThisCard[2]
             point = Game.CardTransfer(point)
             ip=suit+point
             #
@@ -154,7 +213,7 @@ def showing(round,contract,vunerable,declarer):
     return_data.append(NS_trick)
     return_data.append(EW_trick)
     return return_data
-#showing(3,"2D")
+showing(3,"2D","EW",0)
 
 """
     while temp=input():

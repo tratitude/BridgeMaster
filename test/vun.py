@@ -4,5 +4,5 @@ def vunerable(round):
     r2=0
     r1=round/4
     r2=round%4
-    return  v[(r1+r2)%4]
+    return  v[int((r1+r2)%4)]
         

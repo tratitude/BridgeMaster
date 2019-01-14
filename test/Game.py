@@ -14,7 +14,10 @@ def CardTransfer(v):  #把Barcode轉成PBN格式
         'C':'Q',
         'D':'K'
     }
-    return point[v]
+    if v in point:
+        return point[v]
+    else:
+        return v
 def Classic():
     BMBC = '5'   # BridgeMasterBaseCode
     try:
