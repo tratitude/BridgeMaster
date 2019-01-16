@@ -16,11 +16,8 @@
 - django==2.0.5
 ### admin
 - account: admin
-<<<<<<< HEAD
 - password: admin1234
-=======
 - password: bridge1234
->>>>>>> gitignore
 ### app
 - Member system  徐煒博
   - rank
