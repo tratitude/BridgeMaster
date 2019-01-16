@@ -405,6 +405,16 @@ def cardstring(card):
 def Json(request):
 	if request.body:
 		data = json.loads(request.body)		#成功收到pi傳來的資料
+		if not 'Event' in data:
+			data['Event'] = None
+			data['Site'] = None
+			data['Date'] = None
+		print(data['N'])
+		'''
+		fo = open("data.json", "w")
+		fo.write(request.body)
+		fo.close()
+		'''
 		if data['T_id']==None:
 			T = None
 		else:

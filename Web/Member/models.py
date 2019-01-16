@@ -46,9 +46,9 @@ class seatAdmin(admin.ModelAdmin):
 class rounds(models.Model):
    # dealer=models.CharField(max_length=2)  ??我不知道這要幹嘛
     T_id = models.ForeignKey('table', on_delete=models.CASCADE,null=True)
-    bid = models.CharField(max_length = 100,null=True)    # 開喊位置+喊牌紀錄 Eg.(3,1NT,PS,3C,3S,4NT)
+    bid = models.CharField(max_length = 100,null=True)    # 開喊位置+喊牌紀錄 Eg.(N,1C,2D,3H,3S,4NT,Pass,Pass,Pass)
     leader = models.CharField(max_length = 1)      # 首引位置 N/E/S/W
-    contract = models.CharField(max_length = 2)      #該局的王牌花色
+    contract = models.CharField(max_length = 5)      #該局的王牌花色 Eg. 7NTXX
 # 顯示各家手牌(deal)
     '''
     N   QJ85.AJ64.T85.J4

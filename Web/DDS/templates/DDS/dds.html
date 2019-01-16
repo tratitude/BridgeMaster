@@ -120,8 +120,8 @@
 <table>DDS analyse
     <tr><td width='60'><i></i></td>
         {% if round.vulnerable == 'All' or round.vulnerable == 'NS' %}<td class="vul" width='60'><i>North</i></td>{%else%}<td class="novul" width='60'>North</td>{%endif%}
-        {% if round.vulnerable == 'All' or round.vulnerable == 'EW' %}<td class="vul" width='60'><i>East</i></td>{%else%}<td class="novul" width='60'>East</td>{%endif%}
-        {% if round.vulnerable == 'All' or round.vulnerable == 'NS' %}<td class="vul" width='60'><i>South</i></td>{%else%}<td class="novul" width='60'>South</td>{%endif%}
+        {% if round.vulnerable == 'All' or round.vulnerable == 'EW' %}<td class="vul" width='60'><i>South</i></td>{%else%}<td class="novul" width='60'>South</td>{%endif%}
+        {% if round.vulnerable == 'All' or round.vulnerable == 'NS' %}<td class="vul" width='60'><i>East</i></td>{%else%}<td class="novul" width='60'>East</td>{%endif%}
         {% if round.vulnerable == 'All' or round.vulnerable == 'EW' %}<td class="vul" width='60'><i>West</i></td>{%else%}<td class="novul" width='60'>West</td>{%endif%}
     </tr>
     {% for result in dds_result%}
@@ -139,7 +139,7 @@
             <td class="bla"><img src="{% static  "DDS/img/0c.gif" %}" alt="s" width="13" height="11"/></td class='bla'>
             {%endif%}
     {%endif%}
-        <td class="bla">{{result}}</td class='bla'>
+    <td class="bla">{{result}}</td class='bla'>
         {% if forloop.counter0|modulo:4 == 3 %}
         </tr>
         {%endif%}
