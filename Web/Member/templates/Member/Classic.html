@@ -11,7 +11,18 @@
 {%endblock%}
 
 {%block content%}
+<script type="text/Javascript">
+    function look() = {
+        var myselect = getElementById("test");
+        var index = myselect.selectedIndex;
+        var DdsId = myselect.options[index].value;
+        windows.location = "/DDS/"
+    }
+</script>
 <style>
+ .classic{
+        font-size:18px;
+    }
 .data{
 
 }
@@ -24,17 +35,23 @@
     }
 }
 </style>
-    <div class="classic">
+    <div class="classic" >
     Please Select a Classic Game
+        <form method="post" action="/Member/playmode=0/">
+            {% csrf_token %}
+            <input type="text" placeholder="Event" name="event">
+            <input type="submit" value="查詢">
+        </form>
     <form method="post" action="/Member/Classic/">
         {% csrf_token %}
         <div class="data">
-        <select name="Game">
+        <select name="Game" id="test">
             {%for CM in ClassicGames%}
                 <option value={{CM.pk}}>{{CM.Event}}{{CM.Site}}{{CM.Date}},{{CM.vulnerable}}</option>
             {%endfor%}
         </select><br>
             </div>
+        <input type="button" onclick="look()"value="預覽"><br><br>
         <input type="text" name="N" placeholder="N">
         <input type="text" name="E" placeholder="E">
         <input type="text" name="S" placeholder="S">
