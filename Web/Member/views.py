@@ -220,6 +220,8 @@ def playmode(request,pm='x'):
 	if pm!='x':
 		if(pm==0):	#Classic
 			ClassicGames = rounds.objects.filter(T_id=None,Rnum=0)
+			if request.method == "POST" and request.POST['event']:
+				ClassicGames = ClassicGames.filter(Event__contains = request.POST['event'])
 			return render(request,"Member/Classic.html",locals())
 		elif (pm==1):	#General
 			Users = []

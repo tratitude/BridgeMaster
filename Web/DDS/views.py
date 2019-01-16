@@ -9,10 +9,9 @@ from collections import defaultdict
 from django.http import HttpResponse
 from django.db.models	 import Q
 import math
-from .ddsTable import ddsTable       # ddsTable function description is at bottom
+#from .ddsTable import ddsTable       # ddsTable function description is at bottom
 
 # Create your views here.
-@login_required(login_url='/Member/login/')
 def dds(request, R_id):
     try :
         round = rounds.objects.get(pk=R_id)
@@ -44,7 +43,7 @@ def dds(request, R_id):
         fo.close()
         round.dds_result = ddsR
         round.save()
-
+    '''
     N = card(round.N)
     E = card(round.E)
     S = card(round.S)
@@ -55,9 +54,10 @@ def dds(request, R_id):
 
     dds_result = round.dds_result.split(' ')
     del dds_result[len(dds_result) -1]
-    
+
     bid_suit = deck_suit(b)
 
+        
     return render(request, "DDS/dds.html", locals())
 class card():
     def __init__(self, str):
