@@ -60,7 +60,7 @@ class rounds(models.Model):
     E = models.CharField(max_length = 38)
     W = models.CharField(max_length = 38)
     S = models.CharField(max_length = 38)
-# 各家手牌 OrderBy出牌順序 Eg.(SA,SK,SQ,SJ,HA,HK,HQ,HJ.....)
+# 各家手牌 OrderBy出牌順序 Eg.(SA.SK.SQ.SJ.HA.HK.HQ.HJ .....)
     N_play = models.CharField(max_length = 38, null=True)
     E_play = models.CharField(max_length = 38, null=True)
     W_play = models.CharField(max_length = 38, null=True)

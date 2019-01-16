@@ -17,7 +17,22 @@ def dds(request, R_id):
     try :
         round = rounds.objects.get(pk=R_id)
     except :
-        print(str(R_id) + 'has no rounds')
+        print(str(R_id) + '   has no rounds\n')
+    try :
+        N_play = round.N_play.split(',')
+        E_play = round.E_play.split(',')
+        S_play = round.S_play.split(',')
+        W_play = round.W_play.split(',')
+        if round.leader == 'N':
+            lead = N_play[0]
+        elif round.leader == 'E':
+            lead = E_play[0]
+        elif round.leader == 'S':
+            lead = S_play[0]
+        elif round.leader == 'W':
+            lead = W_play[0]
+    except :
+        print('has no played record\n')
     if round.dds_result is None :
         print('Here is dds result\n')
         fo = open("Web/DDS/ddsTable/ddsDB.dds", "w")
@@ -43,19 +58,6 @@ def dds(request, R_id):
     
     bid_suit = deck_suit(b)
 
-    N_play = round.N_play.split(',')
-    E_play = round.E_play.split(',')
-    S_play = round.S_play.split(',')
-    W_play = round.W_play.split(',')
-    if round.leader == 'N':
-        lead = N_play[0]
-    elif round.leader == 'E':
-        lead = E_play[0]
-    elif round.leader == 'S':
-        lead = S_play[0]
-    elif round.leader == 'W':
-        lead = W_play[0]
-    print(lead)
     return render(request, "DDS/dds.html", locals())
 class card():
     def __init__(self, str):
