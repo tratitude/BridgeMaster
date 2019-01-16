@@ -11,12 +11,30 @@
 {%endblock%}
 
 {%block content%}
+<!--
 <script type="text/Javascript">
-    function look() = {
-        var myselect = getElementById("test");
+     function admin(){
+
+            token = document.getElementById('PermissionToken');
+            //document.write(token.value);
+        if (token.value=="False"){
+            var Btn = document.getElementById("btn");
+            Btn.style.display = "none";
+        }
+        else{
+            window.location.href = "/Member/Administrator/";
+        }
+     }
+</script>-->
+<script type="text/Javascript">
+    function look(){
+        var myselect = document.getElementById('test');
+       // document.write("tset");
+        //document.write("tset");
         var index = myselect.selectedIndex;
         var DdsId = myselect.options[index].value;
-        windows.location = "/DDS/"
+       // document.write(DdsId);
+        location.href = '/DDS/'+DdsId;
     }
 </script>
 <style>
@@ -45,7 +63,7 @@
     <form method="post" action="/Member/Classic/">
         {% csrf_token %}
         <div class="data">
-        <select name="Game" id="test">
+        <select name="Game" id='test'>
             {%for CM in ClassicGames%}
                 <option value={{CM.pk}}>{{CM.Event}}{{CM.Site}}{{CM.Date}},{{CM.vulnerable}}</option>
             {%endfor%}
