@@ -13,19 +13,22 @@ from .ddsTable import ddsTable       # ddsTable function description is at botto
 
 # Create your views here.
 def dds(request, R_id):
-    round = rounds.objects.get(pk=R_id)
-    if round is not None:
-        if round.dds_result == '':
-            fo = open("Web/DDS/ddsTable/ddsDB.dds", "w")
-            fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
-            fo.close()
-            ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.dds", "Web/DDS/ddsTable/ddsResult.dds")
-            fo = open("Web/DDS/ddsTable/ddsResult.dds", "r")
-            ddsR = fo.read(60)
-            fo.close()
-            round.dds_result = ddsR
-            round.save()
-        
+    try :
+        round = rounds.objects.get(pk=R_id)
+    except :
+        print(str(R_id) + 'has no rounds')
+    if round.dds_result is None :
+        print('Here is dds result\n')
+        fo = open("Web/DDS/ddsTable/ddsDB.dds", "w")
+        fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
+        fo.close()
+        ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.dds", "Web/DDS/ddsTable/ddsResult.dds")
+        fo = open("Web/DDS/ddsTable/ddsResult.dds", "r")
+        ddsR = fo.read(60)
+        fo.close()
+        round.dds_result = ddsR
+        round.save()
+
         N = card(round.N)
         E = card(round.E)
         S = card(round.S)
@@ -33,7 +36,7 @@ def dds(request, R_id):
         
         b = round.bid.split(',')
         dealer = b[0]
-        
+
         dds_result = round.dds_result.split(' ')
         del dds_result[len(dds_result) -1]
         
