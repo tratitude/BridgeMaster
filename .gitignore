@@ -1,6 +1,3 @@
-*.pyc
-*.pyo
-.vscode/
 *.o
 *.a
 *.so
@@ -20,3 +17,7 @@ test/itest
 *.exp
 *.lib
 *.res
+.vscode/
+*.pyc
+*.pyo
+*.dds

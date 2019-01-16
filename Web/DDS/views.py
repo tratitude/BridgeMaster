@@ -29,18 +29,18 @@ def dds(request, R_id):
         round.dds_result = ddsR
         round.save()
 
-        N = card(round.N)
-        E = card(round.E)
-        S = card(round.S)
-        W = card(round.W)
-        
-        b = round.bid.split(',')
-        dealer = b[0]
+    N = card(round.N)
+    E = card(round.E)
+    S = card(round.S)
+    W = card(round.W)
+    
+    b = round.bid.split(',')
+    dealer = b[0]
 
-        dds_result = round.dds_result.split(' ')
-        del dds_result[len(dds_result) -1]
-        
-        bid_suit = deck_suit(b)
+    dds_result = round.dds_result.split(' ')
+    del dds_result[len(dds_result) -1]
+    
+    bid_suit = deck_suit(b)
 
         
     return render(request, "DDS/dds.html", locals())

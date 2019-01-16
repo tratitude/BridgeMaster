@@ -26,7 +26,7 @@
 
 {%block content%}
     <input type="hidden" value={{permission}} id='PermissionToken'>
-    <h3>Please Enter Your BridgeMasterBaseCode</h3>
+    Please Enter Your BridgeMasterBaseCode
     <form action="/Member/playmode/" method = "post">
         {% csrf_token %}
         <input type ="text" name="BridgeMasterBaseCode">

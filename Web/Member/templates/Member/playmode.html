@@ -11,10 +11,22 @@
 {%endblock%}
 
 {% block content  %}
-    <input type = "Button" style = "font-size:25px" value = 'Classic'
+<style>
+    .mode{
+
+    }
+    @media only screen and (max-width: 1000px){
+        .mode{
+            font-size:100px;
+        }
+    }
+</style>
+<div class="mode">
+    <input type = "Button"  value = 'Classic'
              onclick ="location.href='/Member/playmode=0/'">
-    <input type = "Button" style = "font-size:25px" value = 'General'
+    <input type = "Button"  value = 'General'
              onclick ="location.href='/Member/playmode=1/'">
+</div>
     <!--
     <form action = "/Member/GameStart/" method ="POST">
         <input style = "font-size:25px"type = "submit" value = 'Classic' name = 'GameMode'>

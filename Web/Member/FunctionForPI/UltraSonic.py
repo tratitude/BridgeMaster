@@ -2,10 +2,10 @@ import RPi.GPIO as GPIO
 import time
 
 
-GPIO.setmode(GPIO.BOARD)
+GPIO.setmode(GPIO.BCM)
 
-GPIO_TRIGGER = 12
-GPIO_ECHO = 18
+GPIO_TRIGGER = 14
+GPIO_ECHO = 15
 
 GPIO.setup(GPIO_TRIGGER,GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
@@ -29,7 +29,7 @@ def Distance():
     
     return distance
 
-	
+    
 #try:
 #    while True:
  #       dist = distance()
