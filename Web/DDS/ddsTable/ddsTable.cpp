@@ -79,7 +79,7 @@ void FileTable(ddTableResults * table, char fileOut[100])
          table->resTable[4][1],
          table->resTable[4][3]);
 
-  for (int suit = 0; suit < DDS_SUITS; suit++)
+  for (int suit = 0; suit < DDS_SUITS-1; suit++)
   {
     fprintf(result, "%d %d %d %d ",
            table->resTable[suit][0],
@@ -87,5 +87,10 @@ void FileTable(ddTableResults * table, char fileOut[100])
            table->resTable[suit][1],
            table->resTable[suit][3]);
   }
+  fprintf(result, "%d %d %d %d",
+           table->resTable[DDS_SUITS-1][0],
+           table->resTable[DDS_SUITS-1][2],
+           table->resTable[DDS_SUITS-1][1],
+           table->resTable[DDS_SUITS-1][3]);
   fclose(result);
 }

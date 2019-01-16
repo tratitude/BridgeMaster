@@ -32,17 +32,17 @@ def dds(request, R_id):
             lead = W_play[0]
     except :
         print('has no played record\n')
-    if round.dds_result is None :
-        print('Here is dds result\n')
-        fo = open("Web/DDS/ddsTable/ddsDB.dds", "w")
-        fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
-        fo.close()
-        ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.dds", "Web/DDS/ddsTable/ddsResult.dds")
-        fo = open("Web/DDS/ddsTable/ddsResult.dds", "r")
-        ddsR = fo.read(59)
-        fo.close()
-        round.dds_result = ddsR
-        round.save()
+    #if round.dds_result is None :
+    print('Here is dds result\n')
+    fo = open("Web/DDS/ddsTable/ddsDB.dds", "w")
+    fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
+    fo.close()
+    ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.dds", "Web/DDS/ddsTable/ddsResult.dds")
+    fo = open("Web/DDS/ddsTable/ddsResult.dds", "r")
+    ddsR = fo.read(60)
+    fo.close()
+    round.dds_result = ddsR
+    round.save()
     
     N = card(round.N)
     E = card(round.E)
@@ -53,9 +53,7 @@ def dds(request, R_id):
     dealer = b[0]
 
     dds_result = round.dds_result.split(' ')
-    if(dds_result[len(dds_result) -1] == ' '):
-        dds_result.remove(' ')
-
+    print(dds_result)
     bid_suit = deck_suit(b)
 
         
