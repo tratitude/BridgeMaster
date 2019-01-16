@@ -1,4 +1,3 @@
-
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.template.context_processors import csrf
@@ -9,13 +8,14 @@ from django.contrib.auth.decorators import login_required
 from collections import defaultdict
 from django.http import HttpResponse
 from django.db.models	 import Q
+import math
 from .ddsTable import ddsTable       # ddsTable function description is at bottom
 
 # Create your views here.
 def dds(request, R_id):
     round = rounds.objects.get(pk=R_id)
     if round is not None:
-        if round.dds_result is None:
+        if round.dds_result == '':
             fo = open("Web/DDS/ddsTable/ddsDB.dds", "w")
             fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
             fo.close()
@@ -25,11 +25,21 @@ def dds(request, R_id):
             fo.close()
             round.dds_result = ddsR
             round.save()
-
+        
         N = card(round.N)
         E = card(round.E)
         S = card(round.S)
         W = card(round.W)
+        
+        b = round.bid.split(',')
+        dealer = b[0]
+        
+        dds_result = round.dds_result.split(' ')
+        del dds_result[len(dds_result) -1]
+        
+        bid_suit = deck_suit(b)
+
+        
     return render(request, "DDS/dds.html", locals())
 class card():
     def __init__(self, str):
@@ -38,6 +48,50 @@ class card():
         self.Hart = round[1]
         self.Diamond = round[2]
         self.Club = round[3]
+
+class bid(list):
+    def __init__(self, suit, num):
+        self.num = num
+        self.suit = suit
+    '''
+    def __str__(self):
+        return (str(self.num)+self.suit)
+    '''
+def deck_suit(b):
+    dealer = b[0]
+    del b[0]
+    if dealer == 'E':
+        b.insert(0, '')
+    if dealer == 'S':
+        b.insert(0, '')
+        b.insert(0, '')
+    if dealer == 'W':
+        b.insert(0, '')
+        b.insert(0, '')
+        b.insert(0, '')
+    bid_round = math.ceil(len(b) / 4)
+    for i in range(len(b)-1, bid_round*4 - 1):
+        b.append('')
+    
+    bid_suit = []
+    for bb in b:
+        if(len(bb) == 0):
+            bid_suit.append(('', ''))
+        elif(bb == 'X'):
+            bid_suit.append(bid(bb, bb))
+        elif(bb[1] == 'S'):
+            bid_suit.append(bid('S', bb[0]))
+        elif(bb[1] == 'H'):
+            bid_suit.append(bid('H', bb[0]))
+        elif(bb[1] == 'D'):
+            bid_suit.append(bid('D', bb[0]))
+        elif(bb[1] == 'C'):
+            bid_suit.append(bid('C', bb[0]))
+        else:
+            bid_suit.append(bid(bb, bb))
+    #print(bid_suit)
+    return bid_suit
+
 '''
 # ddsTable("input file", "output file")
 -----------------------

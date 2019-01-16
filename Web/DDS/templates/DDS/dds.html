@@ -1,7 +1,24 @@
 {%extends 'Member/base.html'%}
+{% load mod_tag %}
+{% load divide_tag %}
 {% load staticfiles %}
 {%block title%}
     Game Detail
+    <style type="text/css">
+        html{font-family:Calibri;font-size:16px;}
+        table{border-collapse:collapse;}
+        .bidding{width:230px;}
+        td{padding:2px;}
+        .board{
+        padding:3px;
+        margin:3px;
+        color:#003;
+        }
+        td.vul{color:#D90000;margin:0px;padding:3px 5px 3px 5px; }
+        td.novul{color:#000;margin:0px;padding:3px 5px 3px 5px;}
+        td.bimargin:0px;padding:3px 5px 3px 5px;}
+        .era{border:2px groove #000}
+        </style>
 {%endblock%}
 
 {%block user%}
@@ -13,12 +30,15 @@
 {%block content%}
 <div style="position:absolute;left:400px;font-size:25px;text-align:justify;">
     <!-- complete deal -->
+    &nbsp;Round: {{round.Rnum}}
+    &nbsp;{{dealer}} / {{round.vulnerable}} <p></p>
+    &nbsp;{{round.contract}} by {{round.declarer}} <p></p>
     <table class="doc" cellspacing="1" cellpadding="3">
-    <tr><td width="130">&nbsp;East / None</td>
-        <td  width="120"></td>
+    <tr>
+        <td width="120"></td>
         <td width="130"></td></tr>
     <tr><td></td>
-        <td>North</td>
+        {% if round.vulnerable == 'All' or round.vulnerable == 'NS' %}<td class="vul">North</td>{%else%}<td class="novul">North</td>{%endif%}
         <td></td></tr>
     <tr><td></td>
         <td><img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/>{%for card in N.Spade%}&nbsp;{{card}}{%endfor%}</td>
@@ -29,12 +49,12 @@
     <tr><td></td>
         <td><img src="{% static  "DDS/img/0d.gif" %}" alt="d" width="13" height="11"/>{%for card in N.Diamond%}&nbsp;{{card}}{%endfor%}</td>
         <td></td></tr>
-    <tr><td></td>
+    <tr><td ></td>
         <td><img src="{% static  "DDS/img/0c.gif" %}" alt="c" width="13" height="11"/>{%for card in N.Club%}&nbsp;{{card}}{%endfor%}</td>
         <td></td></tr>
-    <tr><td>West</td>
+    <tr>{% if round.vulnerable == 'All' or round.vulnerable == 'EW' %}<td class="vul">West</td>{%else%}<td class="novul">West</td>{%endif%}
         <td rowspan="5" align="left"><img src="{% static  "DDS/img/t00x100e.gif" %}" class="blok" width="100" height="100" alt="I" /></td>
-        <td>East</td></tr>
+        {% if round.vulnerable == 'All' or round.vulnerable == 'EW' %}<td class="vul">East</td>{%else%}<td class="novul">East</td>{%endif%}</tr>
     <tr><td><img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/>{%for card in W.Spade%}&nbsp;{{card}}{%endfor%}</td>
         <td><img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/>{%for card in E.Spade%}&nbsp;{{card}}{%endfor%}</td></tr>
     <tr><td><img src="{% static  "DDS/img/0h.gif" %}" alt="h" width="13" height="11"/>{%for card in W.Hart%}&nbsp;{{card}}{%endfor%}</td>
@@ -44,7 +64,7 @@
     <tr><td><img src="{% static  "DDS/img/0c.gif" %}" alt="c" width="13" height="11"/>{%for card in W.Club%}&nbsp;{{card}}{%endfor%}</td>
         <td><img src="{% static  "DDS/img/0c.gif" %}" alt="c" width="13" height="11"/>{%for card in E.Club%}&nbsp;{{card}}{%endfor%}</td></tr>
     <tr><td></td>
-        <td>South</td>
+        {% if round.vulnerable == 'All' or round.vulnerable == 'NS' %}<td class="vul">South</td>{%else%}<td class="novul"></td>{%endif%}
         <td></td></tr>
     <tr><td></td>
         <td><img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/>{%for card in S.Spade%}&nbsp;{{card}}{%endfor%}</td>
@@ -61,25 +81,66 @@
     <!-- end complete deal -->
 <p></p>
     <table>
-        <tr><td width='60'><i>West</i></td>
-            <td width='60'><i>North</i></td>
-            <td width='60'><i>East</i></td>
-            <td width='60'><i>South</i></td>
+        <tr>
+            {% if round.vulnerable == 'All' or round.vulnerable == 'NS' %}<td class="vul" width='60'><i>North</i></td>{%else%}<td class="novul" width='60'>North</td>{%endif%}
+            {% if round.vulnerable == 'All' or round.vulnerable == 'EW' %}<td class="vul" width='60'><i>East</i></td>{%else%}<td class="novul" width='60'>East</td>{%endif%}
+            {% if round.vulnerable == 'All' or round.vulnerable == 'NS' %}<td class="vul" width='60'><i>South</i></td>{%else%}<td class="novul" width='60'>South</td>{%endif%}
+            {% if round.vulnerable == 'All' or round.vulnerable == 'EW' %}<td class="vul" width='60'><i>West</i></td>{%else%}<td class="novul" width='60'>West</td>{%endif%}
         </tr>
-        <tr><td class="bla">2<img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/></td>
-            <td class="bla">5<img src="{% static  "DDS/img/0h.gif" %}" alt="h" width="13" height="11"/></td>
-            <td class="bla">6<img src="{% static  "DDS/img/0d.gif" %}" alt="d" width="13" height="11"/></td>
-            <td class="bla">Pass</td>
-        </tr>
-        <tr><td class="bla">Pass</td>
-            <td class="bla">Pass</td>
-        </tr>
+        {% for bid in bid_suit%}
+        {% if forloop.counter0|modulo:4 == 0 %}
+            <tr>
+        {%endif%}
+                {% if bid.suit == 'S'%}
+                <td class="bla">{{bid.num}}<img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/></td class='bla'>
+                {% elif bid.suit == 'H' %}
+                <td class="bla">{{bid.num}}<img src="{% static  "DDS/img/0h.gif" %}" alt="h" width="13" height="11"/></td class='bla'>
+                {% elif bid.suit == 'D' %}
+                <td class="bla">{{bid.num}}<img src="{% static  "DDS/img/0d.gif" %}" alt="d" width="13" height="11"/></td class='bla'>
+                {% elif bid.suit == 'C' %}
+                <td class="bla">{{bid.num}}<img src="{% static  "DDS/img/0c.gif" %}" alt="d" width="13" height="11"/></td class='bla'>
+                {% else %}
+                <td class="bla">{{bid.num}}</td class='bla'>
+                {%endif%}
+                {% if forloop.counter0|modulo:4 == 3 %}
+            </tr>
+            {%endif%}
+        {%endfor%}
     </table>
+    <p></p>
+    
 </div>
 {%endblock%}
 
 {%block right%}
-
+<table>DDS analyse
+    <tr><td width='60'><i></i></td>
+        {% if round.vulnerable == 'All' or round.vulnerable == 'NS' %}<td class="vul" width='60'><i>North</i></td>{%else%}<td class="novul" width='60'>North</td>{%endif%}
+        {% if round.vulnerable == 'All' or round.vulnerable == 'EW' %}<td class="vul" width='60'><i>East</i></td>{%else%}<td class="novul" width='60'>East</td>{%endif%}
+        {% if round.vulnerable == 'All' or round.vulnerable == 'NS' %}<td class="vul" width='60'><i>South</i></td>{%else%}<td class="novul" width='60'>South</td>{%endif%}
+        {% if round.vulnerable == 'All' or round.vulnerable == 'EW' %}<td class="vul" width='60'><i>West</i></td>{%else%}<td class="novul" width='60'>West</td>{%endif%}
+    </tr>
+    {% for result in dds_result%}
+    {% if forloop.counter0|modulo:4 == 0 %}
+        <tr>
+            {% if forloop.counter0|divide:4 == 0 %}
+            <td class="bla">NT</td class='bla'>
+            {% elif forloop.counter0|divide:4 == 1 %}
+            <td class="bla"><img src="{% static  "DDS/img/0s.gif" %}" alt="s" width="13" height="11"/></td class='bla'>
+            {% elif forloop.counter0|divide:4 == 2 %}
+            <td class="bla"><img src="{% static  "DDS/img/0h.gif" %}" alt="s" width="13" height="11"/></td class='bla'>
+            {% elif forloop.counter0|divide:4 == 3 %}
+            <td class="bla"><img src="{% static  "DDS/img/0d.gif" %}" alt="s" width="13" height="11"/></td class='bla'>
+            {% else %}
+            <td class="bla"><img src="{% static  "DDS/img/0c.gif" %}" alt="s" width="13" height="11"/></td class='bla'>
+            {%endif%}
+    {%endif%}
+        <td class="bla">{{result}}</td class='bla'>
+        {% if forloop.counter0|modulo:4 == 3 %}
+        </tr>
+        {%endif%}
+    {%endfor%}
+</table>
 {%endblock%}
 
 
