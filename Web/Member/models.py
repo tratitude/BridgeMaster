@@ -9,7 +9,7 @@ class table(models.Model):
     EW_TotalPoint = models.DecimalField(max_digits = 5,decimal_places=0)
     RoundNum = models.DecimalField(max_digits = 10,decimal_places=0)     #總共進行幾個ROUND Eg. 1/4/16
     MachineID = models.DecimalField(max_digits = 10,decimal_places=0)
-    dds_result = models.CharField(max_length=60, null=True)  # 分析過的存進資料庫
+    #dds_result = models.CharField(max_length=60, null=True)  # 在rounds中
     '''
     dds_result format: string{10 11 12 13 20 ... 53}
     # Use space to seperate each 2 digits numner
@@ -65,6 +65,12 @@ class rounds(models.Model):
     E_play = models.CharField(max_length = 38, null=True)
     W_play = models.CharField(max_length = 38, null=True)
     S_play = models.CharField(max_length = 38, null=True)
+    '''
+    N_play   SQ.SQ ...
+    E_play   SA.Sk ...
+    S_play   ST.S9 ...
+    W_play   S3.HK ...
+    '''
    #身價
     vulnerable = models.CharField(max_length = 4,null=True)    #None:0, NS:1, EW:2, All:3
    #declarer吃下的噔數

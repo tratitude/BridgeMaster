@@ -19,10 +19,10 @@ def dds(request, R_id):
     except :
         print(str(R_id) + '   has no rounds\n')
     try :
-        N_play = round.N_play.split(',')
-        E_play = round.E_play.split(',')
-        S_play = round.S_play.split(',')
-        W_play = round.W_play.split(',')
+        N_play = round.N_play.split('.')
+        E_play = round.E_play.split('.')
+        S_play = round.S_play.split('.')
+        W_play = round.W_play.split('.')
         if round.leader == 'N':
             lead = N_play[0]
         elif round.leader == 'E':
