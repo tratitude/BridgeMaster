@@ -30,9 +30,12 @@
 {%block content%}
 <div style="position:absolute;left:400px;font-size:25px;text-align:justify;">
     <!-- complete deal -->
-    &nbsp;Round: {{round.Rnum}}<p></p>
-    &nbsp;Dealer: {{dealer}} / Vulnerable: {{round.vulnerable}} <p></p>
-    &nbsp;Contract: {{round.contract}} / Declarer: {{round.declarer}} <p></p>
+    Round: {{round.Rnum}}<p></p>
+    Dealer: {{dealer}} / Vulnerable: {{round.vulnerable}} <p></p>
+    <!--{{round.N_play}}<p></p>
+    {{round.E_play}}<p></p>
+    {{round.S_play}}<p></p>
+    {{round.W_play}}<p></p>-->
     <table class="doc" cellspacing="1" cellpadding="3">
     <tr>
         <td width="120"></td>
@@ -107,7 +110,9 @@
             {%endif%}
         {%endfor%}
     </table>
-    <p></p>&nbsp;Result: {{round.result}} / Score: {{round.score}} <p></p>
+    Contract: {{round.contract}} / Declarer: {{round.declarer}}<p></p>
+    Leader: {{round.leader}} / Leading: {{lead}} <p></p>
+    Result: {{round.result}} / Score: {{round.score}} <p></p>
 </div>
 {%endblock%}
 

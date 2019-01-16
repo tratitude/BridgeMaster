@@ -12,6 +12,7 @@ import math
 from .ddsTable import ddsTable       # ddsTable function description is at bottom
 
 # Create your views here.
+@login_required(login_url='/Member/login/')
 def dds(request, R_id):
     try :
         round = rounds.objects.get(pk=R_id)
@@ -42,7 +43,19 @@ def dds(request, R_id):
     
     bid_suit = deck_suit(b)
 
-        
+    N_play = round.N_play.split(',')
+    E_play = round.E_play.split(',')
+    S_play = round.S_play.split(',')
+    W_play = round.W_play.split(',')
+    if round.leader == 'N':
+        lead = N_play[0]
+    elif round.leader == 'E':
+        lead = E_play[0]
+    elif round.leader == 'S':
+        lead = S_play[0]
+    elif round.leader == 'W':
+        lead = W_play[0]
+    print(lead)
     return render(request, "DDS/dds.html", locals())
 class card():
     def __init__(self, str):
