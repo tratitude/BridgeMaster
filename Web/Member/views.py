@@ -383,6 +383,24 @@ def userdelete(request,uid='x'):
 		message = "刪除失敗"
 	return redirect("/Member/Administrator/")
 
+
+def cardstring(card):
+	Card = card.split('.')
+	S = ""
+	H = ""
+	D = ""
+	C = ""
+	for c in Card:
+		if c[0] == 'S':
+			S += c[1]
+		elif c[0] == 'H':
+			H += c[1]
+		elif c[0] == 'D':
+			D += c[1]
+		elif c[0] == 'C':
+			C += c[1]
+	Card = S + '.' + H + '.' + D + '.' + C
+	return Card
 @csrf_exempt
 def Json(request):
 	if request.body:
@@ -393,10 +411,16 @@ def Json(request):
 			T = table.objects.get(pk=data['T_id'])
 			T.RoundNum += 1
 			T.save()
+		##分成 NESW ##
+		Ncard = cardstring(data['N'])
+		Ecard = cardstring(data['E'])
+		SCard = cardstring(data['S'])
+		Wcard = cardstring(data['W'])
+		print(Ncard,Ecard,SCard,Wcard)
 		#print(data['Date'])
 		unit = rounds.objects.create(Event=data['Event'],Site = data['Site'],Date=data['Date'],T_id=T,bid=data['bid'],leader=data['leader'],
-									 contract=data['contract'],N=data['N'],E=data['E'],W=data['W'],
-									 S=data['S'],vulnerable=data['vulnerable'],result=data['result'],
+									 contract=data['contract'],N=Ncard,E=Ecard,S=SCard,W=Wcard,N_play=data['N'],E_play=data['E'],W_play=data['W'],
+									 S_play=data['S'],vulnerable=data['vulnerable'],result=data['result'],
 									 declarer=data['declarer'],Rnum=data['Rnum'],score=data['score'])
 		unit.save()
 	return JsonResponse({'test': 'work!'})
