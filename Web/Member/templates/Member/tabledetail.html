@@ -1,5 +1,5 @@
 {% extends 'Member/base.html' %}
-
+{% load minus_tag %}
 {%block title%}
     Table Detail
 {%endblock%}
@@ -31,8 +31,13 @@
         <tr>
         <td>{{round.T_id}}</td>
         <td>{{round.Rnum}}</td>
-        <td>{{round.NS_Trick}}</td>
-        <td>{{round.EW_Trick}}</td>
+        {% if round.declarer == 'N' or round.declarer == 'S'%}
+        <td>{{round.result}}</td>
+        <td>{{13|minus:round.result}}</td>
+        {%else%}
+        <td>{{13|minus:round.result}}</td>
+        <td>{{round.result}}</td>
+        {%endif%}
         <td>{{round.vulnerable}}</td>
         <td>{{round.contract}}</td>
         <td>{{round.leader}}</td>

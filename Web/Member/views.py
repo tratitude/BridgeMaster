@@ -346,6 +346,20 @@ def tableinformation(request,tid='x'):
 	Wseat = seat.objects.filter(TableID=tid, position="W")
 	Sseat = seat.objects.filter(TableID=tid, position="S")
 	Rounds = rounds.objects.filter(T_id=tid)
+	'''
+	NS_Trick = []
+	EW_Trick = []
+	for round in Rounds:
+		try:
+			if(round.declarer == 'N' or round.declarer == 'S'):
+				NS_Trick.append(round.result)
+				EW_Trick.append(13 - NS_Trick)
+			else:
+				EW_Trick.append(round.result)
+				NS_Trick.append(13 - EW_Trick)
+		except:
+			print("Table ID: " + round + " table not found\n\n\n\n\n\n")
+	'''
 	return render(request,"Member/tabledetail.html",locals())
 
 @login_required(login_url='/Member/login/')
