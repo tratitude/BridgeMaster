@@ -208,6 +208,7 @@ def Classic(request):
 				s = seat.objects.create(position='W', PlayerID=Wplayer, TableID=t)
 				s.save()
 				Ses.create()
+				print(Ses)
 				return redirect("/Member/index/")
 		Err = "禁止短時間內多次開局"
 		return render(request,"Member/index.html/",locals())
@@ -264,6 +265,7 @@ def playmode(request,pm='x'):
 					S['state'] = '1'	## 線上隨機模式
 					S['T_id'] = t.pk
 					S.create()
+					print(S)
 				else:
 					message = "短時間內創建過多次牌局"
 			return render(request,"Member/General.html",locals())
