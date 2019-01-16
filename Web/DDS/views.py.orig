@@ -8,7 +8,8 @@ from django.contrib.auth.decorators import login_required
 from collections import defaultdict
 from django.http import HttpResponse
 from django.db.models	 import Q
-#from .ddsTable import ddsTable       # ddsTable function description is at bottom
+<<<<<<< HEAD
+from .ddsTable import ddsTable       # ddsTable function description is at bottom
 
 # Create your views here.
 def dds(request):
@@ -17,7 +18,7 @@ def dds(request):
     fo.write("N:" + round.N + " " + round.E + " " + round.S + " " + round.W + "\n")
     fo.close()
 
-   # ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.txt", "Web/DDS/ddsTable/ddsResult.txt")
+    ddsTable.ddsTable("Web/DDS/ddsTable/ddsDB.txt", "Web/DDS/ddsTable/ddsResult.txt")
 
     fo = open("Web/DDS/ddsTable/ddsResult.txt", "r")
     ddsR = fo.read(60)
@@ -43,3 +44,9 @@ H     9     9     4     4
 D     8     8     4     4
 C     3     3     9     9
 '''
+=======
+
+# Create your views here.
+def dds(request):
+    render(request, "DDS/dds.html", locals())
+>>>>>>> 20
