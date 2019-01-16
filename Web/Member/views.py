@@ -299,6 +299,10 @@ def tableinformation(request,tid='x'):
 			tables = timefilter(time,tables)
 			if  request.POST['BMBC']!="":
 				tables = tables.filter(MachineID=request.POST['BMBC'])
+			#if request.POST['Mypoint']!="":
+			#	#先判斷使用者坐在哪一個位置
+			#	Myseat = seat.objects.filter()
+				#Mypoint = tables.filter()
 			if request.POST['Friend']!="":
 				try:
 					friend = User.objects.get_by_natural_key(request.POST['Friend'])
