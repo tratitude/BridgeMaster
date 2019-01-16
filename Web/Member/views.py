@@ -143,7 +143,7 @@ def data_fresh(request):
 	try:
 		for session in sessions:
 			s = session.get_decoded()
-			print(s)
+			#print(s)
 			if 'BMBC' in s and s['BMBC']==request.session['BMBC']:		#取出所有BMBC相同的玩家
 				Users.append(s['_auth_user_id'])
 	except:
@@ -301,6 +301,8 @@ def tableinformation(request,tid='x'):
 			tables = timefilter(time,tables)
 			if  request.POST['BMBC']!="":
 				tables = tables.filter(MachineID=request.POST['BMBC'])
+			if  request.POST['T_id']!="":
+				tables = tables.filter(pk=request.POST['T_id'])
 			#if request.POST['Mypoint']!="":
 			#	#先判斷使用者坐在哪一個位置
 			#	Myseat = seat.objects.filter()
